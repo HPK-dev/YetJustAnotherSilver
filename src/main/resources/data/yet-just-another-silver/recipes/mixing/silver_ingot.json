@@ -1,0 +1,27 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "tag": "c:copper_ingots"
+    },
+    {
+      "tag": "c:copper_ingots"
+    },
+    {
+      "tag": "c:copper_ingots"
+    },
+    {
+      "tag": "c:gold_ingots"
+    },
+    {
+      "tag": "c:gunpowder"
+    }
+  ],
+  "results": [
+    {
+      "item": "yet-just-another-silver:silver_ingot",
+      "count": 2
+    }
+  ],
+  "heatRequirement": "heated"
+}
