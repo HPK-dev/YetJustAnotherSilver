@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "yet-just-another-silver",
+	"id": "yjas",
 	"version": "${version}",
 	"name": "Yet just another silver",
 	"description": "This is a simple mod to bring the silver to fabric 1.20+",
@@ -12,7 +12,7 @@
 				"sources": "https://github.com/HPK-dev/YetJustAnotherSilver/"
 	},
 	"license": "MIT",
-	"icon": "assets/yet-just-another-silver/icon.png",
+	"icon": "assets/yjas/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [

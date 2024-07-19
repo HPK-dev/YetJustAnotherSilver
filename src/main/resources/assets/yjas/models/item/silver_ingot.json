@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "yet-just-another-silver:item/silver_ingot"
+    "layer0": "yjas:item/silver_ingot"
   }
 }

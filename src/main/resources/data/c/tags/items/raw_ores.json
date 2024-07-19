@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-      "yjas:silver_ingot"
+    "#c:raw_silver_ores"
   ]
 }

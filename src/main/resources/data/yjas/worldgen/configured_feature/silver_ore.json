@@ -6,7 +6,7 @@
     "targets": [
       {
         "state": {
-          "Name": "yet-just-another-sliver:silver_ore"
+          "Name": "yjas:silver_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
@@ -15,7 +15,7 @@
       },
       {
         "state": {
-          "Name": "yet-just-another-silver:silver_ore"
+          "Name": "yjas:deepslate_silver_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",

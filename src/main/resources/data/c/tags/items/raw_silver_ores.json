@@ -1,6 +1,7 @@
+
 {
   "replace": false,
   "values": [
-      "yjas:silver_ingot"
+    "yjas:raw_silver"
   ]
 }
