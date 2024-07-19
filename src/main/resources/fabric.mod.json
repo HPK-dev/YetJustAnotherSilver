@@ -1,0 +1,45 @@
+{
+	"schemaVersion": 1,
+	"id": "yet-just-another-sliver",
+	"version": "${version}",
+	"name": "Yet just another sliver",
+	"description": "This is a simple mod to bring the silver to fabric 1.20+",
+	"authors": [
+		"Mike Tang",
+		"Brian Duan"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/yet-just-another-sliver/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "team.hpk.yjas.YetJustAnotherSliver",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "team.hpk.yjas.YetJustAnotherSliverDataGenerator",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"yet-just-another-sliver.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
