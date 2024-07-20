@@ -2,6 +2,8 @@ package team.hpk.yjas
 
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
+import team.hpk.yjas.block.ModBlocks
+import team.hpk.yjas.item.ModItems
 
 
 object ModMain : ModInitializer {
@@ -11,8 +13,10 @@ object ModMain : ModInitializer {
 
     override fun onInitialize() {
         LOGGER.info("We add silver to your game!")
-        Registry()
-
+        ModItems.register()
+        ModBlocks.register()
 
     }
+
+
 }

@@ -17,24 +17,26 @@ class ConfiguredFeatures {
 
         val SILVER_ORE_KEY: RegistryKey<ConfiguredFeature<*, *>> =
             RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, getIdentifier("silver_ore"))
+
+        fun boostrap(context: Registerable<ConfiguredFeature<*, *>>) {
+            val stoneReplaceables = TagMatchRuleTest(BlockTags.STONE_ORE_REPLACEABLES)
+            val deepslateReplaceables = TagMatchRuleTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES)
+
+            val silverOres = listOf(
+                OreFeatureConfig.createTarget(stoneReplaceables, ModBlocks.SILVER_ORE.defaultState),
+                OreFeatureConfig.createTarget(deepslateReplaceables, ModBlocks.DEEPSLATE_SILVER_ORE.defaultState)
+            )
+
+
+            context.register(
+                SILVER_ORE_KEY,
+                ConfiguredFeature(Feature.ORE, OreFeatureConfig(silverOres, 8))
+            )
+
+        }
     }
 
 
-    fun boostrap(context: Registerable<ConfiguredFeature<*, *>>) {
-        val stoneReplaceables = TagMatchRuleTest(BlockTags.STONE_ORE_REPLACEABLES)
-        val deepslateReplaceables = TagMatchRuleTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES)
 
-        val silverOres = listOf(
-            OreFeatureConfig.createTarget(stoneReplaceables, ModBlocks.SILVER_ORE.defaultState),
-            OreFeatureConfig.createTarget(deepslateReplaceables, ModBlocks.DEEPSLATE_SILVER_ORE.defaultState)
-        )
-
-
-        context.register(
-            SILVER_ORE_KEY,
-            ConfiguredFeature(Feature.ORE, OreFeatureConfig(silverOres, 12))
-        )
-
-    }
 
 }
