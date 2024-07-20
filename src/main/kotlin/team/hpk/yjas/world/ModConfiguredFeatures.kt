@@ -30,7 +30,7 @@ class ModConfiguredFeatures {
 
             context.register(
                 SILVER_ORE_KEY,
-                ConfiguredFeature(Feature.ORE, OreFeatureConfig(silverOres, 8))
+                ConfiguredFeature(Feature.ORE, OreFeatureConfig(silverOres, 12))
             )
 
         }

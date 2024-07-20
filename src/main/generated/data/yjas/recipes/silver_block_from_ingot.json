@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "silver",
+  "key": {
+    "#": {
+      "item": "yjas:silver_ingot"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "yjas:silver_block"
+  },
+  "show_notification": true
+}

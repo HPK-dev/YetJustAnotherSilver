@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "silver",
+  "key": {
+    "#": {
+      "item": "yjas:silver_nugget"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "yjas:silver_ingot"
+  },
+  "show_notification": true
+}
