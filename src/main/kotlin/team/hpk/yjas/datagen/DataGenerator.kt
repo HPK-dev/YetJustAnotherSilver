@@ -15,6 +15,7 @@ object DataGenerator : DataGeneratorEntrypoint {
             addProvider(::LootTable)
             addProvider(::Recipe)
             addProvider(::WorldGen)
+            addProvider(::Model)
 
         }
     }
