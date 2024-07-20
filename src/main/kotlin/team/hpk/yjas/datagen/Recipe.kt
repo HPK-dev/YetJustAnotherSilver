@@ -29,16 +29,18 @@ class Recipe(output: FabricDataOutput) : FabricRecipeProvider(output) {
             1.0f, 200, "silver"
         )
 
-        offerReversibleCompactingRecipes(
+        offerReversibleCompactingRecipesWithCompactingRecipeGroup(
             exporter,
-            RecipeCategory.BUILDING_BLOCKS, ModItems.SILVER_INGOT,
-            RecipeCategory.DECORATIONS, ModItems.SILVER_BLOCK
+            RecipeCategory.MISC, ModItems.SILVER_INGOT,
+            RecipeCategory.BUILDING_BLOCKS, ModItems.SILVER_BLOCK,
+            "silver_block_from_ingot","silver"
         )
 
-        offerReversibleCompactingRecipes(
+        offerReversibleCompactingRecipesWithCompactingRecipeGroup(
             exporter,
             RecipeCategory.MISC, ModItems.SILVER_NUGGET,
-            RecipeCategory.BUILDING_BLOCKS, ModItems.SILVER_INGOT
+            RecipeCategory.MISC, ModItems.SILVER_INGOT,
+            "silver_ingot_from_nugget","silver"
         )
 
 
