@@ -23,7 +23,7 @@
 		],
 		"fabric-datagen": [
 			{
-				"value": "team.hpk.yjas.DataGener",
+				"value": "team.hpk.yjas.datagen.DataGenerator",
 				"adapter": "kotlin"
 			}
 		]

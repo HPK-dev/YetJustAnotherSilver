@@ -7,31 +7,31 @@ import net.minecraft.registry.Registry
 import team.hpk.yjas.Utils.getIdentifier
 
 
-class BlockRegistry() {
-    companion object {
-        val SILVER_BLOCK: Block = Block(
-            FabricBlockSettings
-                .create()
-                .strength(4.0f)
-                .requiresTool()
-        )
+object ModBlocks {
 
-        val SILVER_ORE: Block = Block(
-            FabricBlockSettings
-                .create()
-                .strength(3.0f)
-                .requiresTool()
-        )
+    val SILVER_BLOCK: Block = Block(
+        FabricBlockSettings
+            .create()
+            .strength(4.0f)
+            .requiresTool()
+    )
 
-        val DEEPSLATE_SILVER_ORE: Block = Block(
-            FabricBlockSettings
-                .create()
-                .strength(4.5f)
-                .requiresTool()
-        )
-    }
+    val SILVER_ORE: Block = Block(
+        FabricBlockSettings
+            .create()
+            .strength(3.0f)
+            .requiresTool()
+    )
 
-    init {
+    val DEEPSLATE_SILVER_ORE: Block = Block(
+        FabricBlockSettings
+            .create()
+            .strength(4.5f)
+            .requiresTool()
+    )
+
+
+    fun register() {
         Registry.register(
             Registries.BLOCK,
             getIdentifier("silver_block"),

@@ -4,28 +4,39 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import team.hpk.yjas.Registry.Companion.ITEM_GROUP
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.Identifier
+import team.hpk.yjas.ModMain.MOD_ID
 import team.hpk.yjas.Utils.getIdentifier
 import team.hpk.yjas.Utils.getTranslatableKey
-import team.hpk.yjas.block.BlockRegistry.Companion.DEEPSLATE_SILVER_ORE
-import team.hpk.yjas.block.BlockRegistry.Companion.SILVER_BLOCK
-import team.hpk.yjas.block.BlockRegistry.Companion.SILVER_ORE
+import team.hpk.yjas.block.ModBlocks
 
 
-class ItemRegistry {
+object ModItems {
 
-    companion object {
+    // item group
+    val ITEM_GROUP: RegistryKey<ItemGroup> = RegistryKey.of(
+        RegistryKeys.ITEM_GROUP,
+        Identifier(MOD_ID, "item_group")
+    )
 
 
-        val SILVER_INGOT = SilverIngot(FabricItemSettings())
-        val SILVER_NUGGET = SilverNugget(FabricItemSettings())
-        val RAW_SILVER = RawSilver(FabricItemSettings())
-    }
+    val SILVER_INGOT = SilverIngot(FabricItemSettings())
+    val SILVER_NUGGET = SilverNugget(FabricItemSettings())
+    val RAW_SILVER = RawSilver(FabricItemSettings())
 
-    init {
+    // Block items
+    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, FabricItemSettings())
+    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, FabricItemSettings())
+    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, FabricItemSettings())
+
+
+    fun register() {
         Registry.register(
             Registries.ITEM_GROUP,
             ITEM_GROUP,
@@ -67,19 +78,19 @@ class ItemRegistry {
         Registry.register(
             Registries.ITEM,
             getIdentifier("silver_block"),
-            BlockItem(SILVER_BLOCK, FabricItemSettings())
+            SILVER_BLOCK
         )
 
         Registry.register(
             Registries.ITEM,
             getIdentifier("silver_ore"),
-            BlockItem(SILVER_ORE, FabricItemSettings())
+            SILVER_ORE
         )
 
         Registry.register(
             Registries.ITEM,
             getIdentifier("deepslate_silver_ore"),
-            BlockItem(DEEPSLATE_SILVER_ORE, FabricItemSettings())
+            DEEPSLATE_SILVER_ORE
         )
 
     }

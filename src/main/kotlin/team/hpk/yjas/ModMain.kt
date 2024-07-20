@@ -11,7 +11,7 @@ object ModMain : ModInitializer {
 
     override fun onInitialize() {
         LOGGER.info("We add silver to your game!")
-     Registry()
+        Registry()
 
 
     }
