@@ -8,7 +8,7 @@ import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier
 import team.hpk.yjas.Utils.getIdentifier
 
-class PlacedFeatures {
+class ModPlacedFeatures {
 
     companion object {
         val SILVER_ORE_PLACED_KEY: RegistryKey<PlacedFeature> =
@@ -20,8 +20,8 @@ class PlacedFeatures {
             context.register(
                 SILVER_ORE_PLACED_KEY,
                 PlacedFeature(
-                    configuredFeature.getOrThrow(ConfiguredFeatures.SILVER_ORE_KEY),
-                    OrePlacements.modifiersWithCount(
+                    configuredFeature.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                    ModOrePlacements.modifiersWithCount(
                         8 /*Veins per chunk*/,
                         HeightRangePlacementModifier.uniform(YOffset.fixed(5), YOffset.fixed(40))
                     )

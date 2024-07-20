@@ -3,10 +3,9 @@ package team.hpk.yjas.datagen
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.minecraft.registry.RegistryBuilder
-import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
-import team.hpk.yjas.world.ConfiguredFeatures
-import team.hpk.yjas.world.PlacedFeatures
+import team.hpk.yjas.world.ModConfiguredFeatures
+import team.hpk.yjas.world.ModPlacedFeatures
 
 object DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
@@ -21,8 +20,8 @@ object DataGenerator : DataGeneratorEntrypoint {
     }
 
     override fun buildRegistry(registryBuilder: RegistryBuilder) {
-        registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ConfiguredFeatures::boostrap)
-        registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, PlacedFeatures::boostrap)
+        registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ModConfiguredFeatures::boostrap)
+        registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, ModPlacedFeatures::boostrap)
     }
 
 }

@@ -2,7 +2,7 @@ package team.hpk.yjas.world
 
 import net.minecraft.world.gen.placementmodifier.*
 
-class OrePlacements {
+class ModOrePlacements {
     companion object {
 
          private fun modifiers(

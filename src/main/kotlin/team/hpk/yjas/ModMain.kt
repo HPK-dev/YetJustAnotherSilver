@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
+import team.hpk.yjas.world.gen.ModWorldGeneration
 
 
 object ModMain : ModInitializer {
@@ -15,7 +16,7 @@ object ModMain : ModInitializer {
         LOGGER.info("We add silver to your game!")
         ModItems.register()
         ModBlocks.register()
-
+        ModWorldGeneration.generateModWorldGen()
     }
 
 

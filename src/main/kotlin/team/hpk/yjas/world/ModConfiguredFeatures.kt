@@ -12,7 +12,7 @@ import team.hpk.yjas.Utils.getIdentifier
 import team.hpk.yjas.block.ModBlocks
 
 
-class ConfiguredFeatures {
+class ModConfiguredFeatures {
     companion object {
 
         val SILVER_ORE_KEY: RegistryKey<ConfiguredFeature<*, *>> =
