@@ -3,7 +3,7 @@
   "id": "yjas",
   "version": "${version}",
   "name": "Yet just another silver",
-  "description": "This is a simple mod to bring the silver to fabric 1.20+",
+  "description": "Just add silver to your game!",
   "authors": [
     "Mike Tang",
     "iceice666"
@@ -30,12 +30,9 @@
   },
   "depends": {
     "fabricloader": ">=0.15.11",
-    "minecraft": "~1.20.1",
+    "minecraft": ">=1.20 <1.20.2",
     "java": ">=17",
     "fabric-api": "*",
     "fabric-language-kotlin": "*"
-  },
-  "suggests": {
-    "modmenu": "*"
   }
 }
