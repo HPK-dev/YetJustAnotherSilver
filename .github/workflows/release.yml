@@ -24,12 +24,8 @@ jobs:
           path: './gradle.properties'
           properties: 'mod_version archives_base_name'
 
-
-
       - name: check env
         run: env
-
-
 
       - name: setup Java
         uses: actions/setup-java@v2
@@ -41,8 +37,14 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
 
+      - name: clean
+        run: ./gradlew clean
+
+      - name: datagen
+        run: ./gradlew runDatagen
+
       - name: build
-        run: ./gradlew clean build
+        run: ./gradlew build
 
       - name: release to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3
