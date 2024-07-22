@@ -10,6 +10,7 @@ import team.hpk.yjas.datagen.ModTags.Items.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Items.ORES_IN_GROUND_STONE
 import team.hpk.yjas.datagen.ModTags.Items.RAW_ORES
 import team.hpk.yjas.datagen.ModTags.Items.RAW_SILVER
+import team.hpk.yjas.datagen.ModTags.Items.RAW_SILVER_ORES
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_INGOTS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_NUGGETS
@@ -55,5 +56,9 @@ class Item(output: FabricDataOutput, completableFuture: CompletableFuture<Wrappe
 
         getOrCreateTagBuilder(SILVER_NUGGETS)
             .add(ModItems.SILVER_NUGGET)
+
+        getOrCreateTagBuilder(RAW_SILVER_ORES)
+            .addTag(RAW_SILVER)
+            .addTag(RAW_ORES)
     }
 }

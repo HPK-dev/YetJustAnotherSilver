@@ -17,6 +17,7 @@ object ModTags {
         val SILVER_BLOCKS = key("c:silver_blocks")
         val RAW_ORES = key("c:raw_ores")
         val RAW_SILVER = key("c:raw_silver")
+        val RAW_SILVER_ORES= key("c:raw_silver_ores")
         val INGOTS = key("c:ingots")
         val NUGGETS = key("c:nuggets")
         val SILVER_INGOTS = key("c:silver_ingots")
