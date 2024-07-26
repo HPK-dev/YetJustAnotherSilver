@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "group": "silver",
+  "ingredient": {
+    "item": "create:crushed_raw_silver"
+  },
+  "result": "yjas:silver_ingot"
+}
