@@ -1,2 +1,1 @@
-
-### First release!!
+### Extend 'create:crushed_raw_silver' recipe (add blasting, smelting, splashing)
