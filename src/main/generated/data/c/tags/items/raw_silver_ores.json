@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#c:raw_silver",
-    "#c:raw_ores"
+    "yjas:raw_silver"
   ]
 }

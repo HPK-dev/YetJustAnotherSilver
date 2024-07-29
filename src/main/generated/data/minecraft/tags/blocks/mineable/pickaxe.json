@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#c:blocks"
+    "#c:silver_ores",
+    "#c:silver_blocks"
   ]
 }

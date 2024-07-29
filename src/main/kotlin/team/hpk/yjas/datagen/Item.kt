@@ -34,10 +34,10 @@ class Item(output: FabricDataOutput, completableFuture: CompletableFuture<Wrappe
             .add(ModItems.SILVER_BLOCK)
 
         getOrCreateTagBuilder(RAW_ORES)
-            .addTag(ORES)
+            .addTag(RAW_SILVER_ORES)
 
-        getOrCreateTagBuilder(RAW_SILVER)
-            .add(ModItems.RAW_SILVER)
+//        getOrCreateTagBuilder(RAW_SILVER)
+//            .add(ModItems.RAW_SILVER)
 
         getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModItems.DEEPSLATE_SILVER_ORE)
@@ -58,7 +58,6 @@ class Item(output: FabricDataOutput, completableFuture: CompletableFuture<Wrappe
             .add(ModItems.SILVER_NUGGET)
 
         getOrCreateTagBuilder(RAW_SILVER_ORES)
-            .addTag(RAW_SILVER)
-            .addTag(RAW_ORES)
+            .add(ModItems.RAW_SILVER)
     }
 }

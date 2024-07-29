@@ -1,1 +1,1 @@
-### Extend 'create:crushed_raw_silver' recipe (add blasting, smelting, splashing)
+Fix [#2](https://github.com/HPK-dev/YetJustAnotherSilver/issues/2)

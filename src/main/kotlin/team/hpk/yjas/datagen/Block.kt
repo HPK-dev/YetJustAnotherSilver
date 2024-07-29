@@ -21,9 +21,9 @@ open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<
         getOrCreateTagBuilder(ORES)
             .addTag(SILVER_ORES)
 
-        getOrCreateTagBuilder(BLOCKS)
-            .addTag(SILVER_BLOCKS)
-            .addTag(SILVER_ORES)
+//        getOrCreateTagBuilder(BLOCKS)
+//            .addTag(SILVER_BLOCKS)
+//            .addTag(SILVER_ORES)
 
         getOrCreateTagBuilder(SILVER_ORES)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
@@ -40,7 +40,8 @@ open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<
 
         // Minecraft vanilla tags
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-            .addTag(BLOCKS)
+            .addTag(SILVER_ORES)
+            .addTag(SILVER_BLOCKS)
 
         getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)
             .addTag(SILVER_ORES)
