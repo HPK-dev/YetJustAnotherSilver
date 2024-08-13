@@ -1,1 +1,1 @@
-Fix [#2](https://github.com/HPK-dev/YetJustAnotherSilver/issues/2)
+decrease the amount of ore generation ([#3](https://github.com/HPK-dev/YetJustAnotherSilver/issues/3))
