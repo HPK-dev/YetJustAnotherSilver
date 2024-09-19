@@ -20,15 +20,13 @@
 package team.hpk.yjas.item
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
+//import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.util.Identifier
 import team.hpk.yjas.ModMain.MOD_ID
 import team.hpk.yjas.Utils.getIdentifier
@@ -39,10 +37,10 @@ import team.hpk.yjas.block.ModBlocks
 object ModItems {
 
     // item group
-    val ITEM_GROUP: RegistryKey<ItemGroup> = RegistryKey.of(
-        RegistryKeys.ITEM_GROUP,
+    /*val ITEM_GROUP: RegistryKey<ItemGroup> = RegistryKey.of(
+        RegistryKey.ITEM_GROUP,
         Identifier(MOD_ID, "item_group")
-    )
+    )*/
 
 
     val SILVER_INGOT = SilverIngot(FabricItemSettings())
@@ -56,7 +54,7 @@ object ModItems {
 
 
     fun register() {
-        Registry.register(
+        /*Registry.register(
             Registries.ITEM_GROUP,
             ITEM_GROUP,
             FabricItemGroup.builder()
@@ -71,23 +69,23 @@ object ModItems {
                     entries.add(DEEPSLATE_SILVER_ORE)
                 }
                 .build()
-        )
+        )*/
 
 
         Registry.register(
-            Registries.ITEM,
+            Registry.ITEM,
             getIdentifier("silver_ingot"),
             SILVER_INGOT
         )
 
         Registry.register(
-            Registries.ITEM,
+            Registry.ITEM,
             getIdentifier("silver_nugget"),
             SILVER_NUGGET
         )
 
         Registry.register(
-            Registries.ITEM,
+            Registry.ITEM,
             getIdentifier("raw_silver"),
             RAW_SILVER
         )
@@ -95,19 +93,19 @@ object ModItems {
         // For block items
 
         Registry.register(
-            Registries.ITEM,
+            Registry.ITEM,
             getIdentifier("silver_block"),
             SILVER_BLOCK
         )
 
         Registry.register(
-            Registries.ITEM,
+            Registry.ITEM,
             getIdentifier("silver_ore"),
             SILVER_ORE
         )
 
         Registry.register(
-            Registries.ITEM,
+            Registry.ITEM,
             getIdentifier("deepslate_silver_ore"),
             DEEPSLATE_SILVER_ORE
         )
