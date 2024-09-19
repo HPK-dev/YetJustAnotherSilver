@@ -19,9 +19,8 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import team.hpk.yjas.datagen.ModTags.Items.INGOTS
 import team.hpk.yjas.datagen.ModTags.Items.NUGGETS
 import team.hpk.yjas.datagen.ModTags.Items.ORES
@@ -37,11 +36,11 @@ import team.hpk.yjas.datagen.ModTags.Items.SILVER_ORES
 import team.hpk.yjas.item.ModItems
 import java.util.concurrent.CompletableFuture
 
-class Item(output: FabricDataOutput, completableFuture: CompletableFuture<WrapperLookup>) :
-    FabricTagProvider.ItemTagProvider(output, completableFuture) {
+class Item(output: FabricDataGenerator) :
+    FabricTagProvider.ItemTagProvider(output) {
 
 
-    override fun configure(arg: WrapperLookup) {
+    override fun generateTags() {
         getOrCreateTagBuilder(ORES)
             .addTag(SILVER_ORES)
 
