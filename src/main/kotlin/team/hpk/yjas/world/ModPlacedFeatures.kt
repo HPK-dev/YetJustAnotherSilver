@@ -41,8 +41,8 @@ class ModPlacedFeatures {
                 PlacedFeature(
                     configuredFeature.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
                     ModOrePlacements.modifiersWithCount(
-                        4 /*Veins per chunk*/,
-                        HeightRangePlacementModifier.uniform(YOffset.fixed(5), YOffset.fixed(40))
+                        8 /*Veins per chunk*/,
+                        HeightRangePlacementModifier.uniform(YOffset.fixed(-63), YOffset.fixed(40))
                     )
                 )
             )
