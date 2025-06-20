@@ -29,7 +29,7 @@ object ModTags {
 
     object Items {
         private fun key(id: String): TagKey<Item> =
-            TagKey.of(RegistryKeys.ITEM, Identifier(id))
+            TagKey.of(RegistryKeys.ITEM, Identifier.of(id))
 
         val ORES = key("c:ores")
         val SILVER_ORES = key("c:silver_ores")
@@ -48,7 +48,7 @@ object ModTags {
 
     object Blocks {
         private fun key(id: String): TagKey<Block> =
-            TagKey.of(RegistryKeys.BLOCK, Identifier(id))
+            TagKey.of(RegistryKeys.BLOCK, Identifier.of(id))
 
         val ORES = key("c:ores")
         val BLOCKS = key("c:blocks")

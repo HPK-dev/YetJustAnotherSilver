@@ -32,38 +32,40 @@ import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.RegistryWrapper
+import java.util.concurrent.CompletableFuture
 
-class LootTable(output: FabricDataOutput) : FabricBlockLootTableProvider(output) {
+class LootTable(output: FabricDataOutput,private val registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricBlockLootTableProvider(output, registriesFuture) {
 
 
     private fun oreLikeDrops(
-        drop: Block, item: ItemConvertible, minDropCount: Float, maxDropCount: Float
+        drop: Block, item: ItemConvertible, minDropCount: Float, maxDropCount: Float, registries: RegistryWrapper.WrapperLookup
     ): LootTable.Builder {
+
+        val enchantmentLookup = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
         return dropsWithSilkTouch(
             drop,
             applyExplosionDecay(
                 drop,
                 ItemEntry.builder(item)
                     .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(minDropCount, maxDropCount)))
-                    .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
+                    .apply(ApplyBonusLootFunction.oreDrops(enchantmentLookup.getOrThrow(Enchantments.FORTUNE)))
             ) as LootPoolEntry.Builder<*>
         )
     }
 
     override fun generate() {
+        val registries = this.registriesFuture.get()
         addDrop(ModBlocks.SILVER_BLOCK)
         addDrop(
             ModBlocks.SILVER_ORE,
-            oreLikeDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f)
+            oreLikeDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f, registries)
         )
         addDrop(
             ModBlocks.DEEPSLATE_SILVER_ORE,
-            oreLikeDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f)
+            oreLikeDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f, registries)
         )
-
-
     }
-
-
 }
 

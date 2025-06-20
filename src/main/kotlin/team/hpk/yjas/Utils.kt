@@ -30,6 +30,6 @@ object Utils {
     }
 
     fun getIdentifier (identifier: String) : Identifier {
-        return Identifier(MOD_ID , identifier)
+        return Identifier.of(MOD_ID , identifier)
     }
 }
