@@ -27,6 +27,10 @@ import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier
 import team.hpk.yjas.Utils.getIdentifier
 
+private const val MIN_Y = -63
+private const val MAX_Y = 40
+private const val VEINS_PER_CHUNK = 8
+
 class ModPlacedFeatures {
 
     companion object {
@@ -41,8 +45,8 @@ class ModPlacedFeatures {
                 PlacedFeature(
                     configuredFeature.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
                     ModOrePlacements.modifiersWithCount(
-                        8 /*Veins per chunk*/,
-                        HeightRangePlacementModifier.uniform(YOffset.fixed(-63), YOffset.fixed(40))
+                        VEINS_PER_CHUNK,
+                        HeightRangePlacementModifier.uniform(YOffset.fixed(MIN_Y), YOffset.fixed(MAX_Y))
                     )
                 )
             )
