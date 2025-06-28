@@ -1,1 +1,2 @@
-decrease the amount of ore generation ([#3](https://github.com/HPK-dev/YetJustAnotherSilver/issues/3))
+Add 1.21/1.21.1 experimental support.  
+Extend ore generation to minus Y levels.
