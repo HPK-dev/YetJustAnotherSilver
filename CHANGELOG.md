@@ -1,1 +1,1 @@
-Fix incorrect or missing tags.
+Fix incorrect or missing tags and inappropriate version suffix.
