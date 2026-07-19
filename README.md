@@ -6,7 +6,7 @@ Our server recently started a new modded survival game based on [Create].
 We also installed [Create Craft & Addition].  
 However, we encountered an issue: "Why can't I craft Electrum?"  
 After checking the recipe JSON file, we discovered it requires an item `c:silver_ingot`.  
-Upon further investigation, we found that many tech mods don't support `Fabric 1.20.1` yet,  
+Upon further investigation, we found that many tech mods don't support `Fabric 1.20.2` yet,
 so we decided to create a new mod that adds just silver.
 
 
@@ -14,6 +14,8 @@ so we decided to create a new mod that adds just silver.
 ## Features
 
 Add (deepslate) silver ore, raw silver ,silver ingot, silver nugget and block of silver.
+
+The Minecraft 1.20.2 build does not include Create integration or recipes because no compatible Fabric Create release is available.
 
 ## Acknowledgement
 

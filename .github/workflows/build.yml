@@ -8,22 +8,16 @@ on: [pull_request, push]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        # Use these Java versions
-        java: [
-          21,    # Current Java LTS
-        ]
     runs-on: ubuntu-22.04
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v2
-      - name: setup jdk ${{ matrix.java }}
+      - name: setup jdk 17
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 17
           distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
@@ -51,8 +45,8 @@ jobs:
             data/yjas/worldgen/configured_feature/silver_ore.json; do
             grep -Fxq "$entry" build/jar-contents.txt
           done
+          ! grep -Eq 'create|crushed_raw_silver' build/jar-contents.txt
       - name: capture build artifacts
-        if: ${{ matrix.java == '21' }} # Only upload artifacts built from latest java
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts

@@ -18,7 +18,7 @@ A clear and concise description of what you expected to happen.
 
 **Environment (please complete the following information):**
 - OS: [e.g. Windows]
-- Minecraft version [e.g. 1.20.1]
+- Minecraft version [e.g. 1.20.2]
 - Mod version [e.g. 1.007]
 
 **Additional context**
