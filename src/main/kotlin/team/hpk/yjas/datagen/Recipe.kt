@@ -21,48 +21,92 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
-import net.minecraft.data.server.recipe.RecipeExporter
+import net.minecraft.data.recipe.CookingRecipeJsonBuilder
+import net.minecraft.data.recipe.RecipeExporter
+import net.minecraft.data.recipe.RecipeGenerator
+import net.minecraft.item.ItemConvertible
+import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.book.RecipeCategory
 import team.hpk.yjas.item.ModItems
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import team.hpk.yjas.Utils.getIdentifier
 import java.util.concurrent.CompletableFuture
 
 class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricRecipeProvider(output, registriesFuture) {
 
     companion object {
-        private val SILVER_MELTABLE = listOf(
+        private val SILVER_MELTABLE: List<ItemConvertible> = listOf(
             ModItems.SILVER_ORE,
             ModItems.DEEPSLATE_SILVER_ORE,
             ModItems.RAW_SILVER
         )
     }
 
-    override fun generate(exporter: RecipeExporter) {
-        offerSmelting(
-            exporter, SILVER_MELTABLE,
-            RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            1.0f, 200, "silver"
-        )
+    override fun getRecipeGenerator(
+        registryLookup: RegistryWrapper.WrapperLookup,
+        exporter: RecipeExporter
+    ): RecipeGenerator = object : RecipeGenerator(registryLookup, exporter) {
+        override fun generate() {
+            SILVER_MELTABLE.forEach { input ->
+                offerCookingRecipe(input, false)
+                offerCookingRecipe(input, true)
+            }
 
-        offerBlasting(
-            exporter, SILVER_MELTABLE, RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            1.0f, 200, "silver"
-        )
+            createShaped(RecipeCategory.BUILDING_BLOCKS, ModItems.SILVER_BLOCK)
+                .input('#', ModItems.SILVER_INGOT)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .group("silver")
+                .criterion(hasItem(ModItems.SILVER_INGOT), conditionsFromItem(ModItems.SILVER_INGOT))
+                .offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, getIdentifier("silver_block_from_ingot")))
 
-        offerReversibleCompactingRecipesWithCompactingRecipeGroup(
-            exporter,
-            RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            RecipeCategory.BUILDING_BLOCKS, ModItems.SILVER_BLOCK,
-            "silver_block_from_ingot","silver"
-        )
+            createShapeless(RecipeCategory.MISC, ModItems.SILVER_INGOT, 9)
+                .input(ModItems.SILVER_BLOCK)
+                .criterion(hasItem(ModItems.SILVER_BLOCK), conditionsFromItem(ModItems.SILVER_BLOCK))
+                .offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, getIdentifier("silver_ingot")))
 
-        offerReversibleCompactingRecipesWithCompactingRecipeGroup(
-            exporter,
-            RecipeCategory.MISC, ModItems.SILVER_NUGGET,
-            RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            "silver_ingot_from_nugget","silver"
-        )
+            createShaped(RecipeCategory.MISC, ModItems.SILVER_INGOT)
+                .input('#', ModItems.SILVER_NUGGET)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .group("silver")
+                .criterion(hasItem(ModItems.SILVER_NUGGET), conditionsFromItem(ModItems.SILVER_NUGGET))
+                .offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, getIdentifier("silver_ingot_from_nugget")))
 
+            createShapeless(RecipeCategory.MISC, ModItems.SILVER_NUGGET, 9)
+                .input(ModItems.SILVER_INGOT)
+                .criterion(hasItem(ModItems.SILVER_INGOT), conditionsFromItem(ModItems.SILVER_INGOT))
+                .offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, getIdentifier("silver_nugget")))
+        }
 
+        private fun offerCookingRecipe(input: ItemConvertible, blasting: Boolean) {
+            val method = if (blasting) "blasting" else "smelting"
+            val cookingTime = if (blasting) 100 else 200
+            val recipe = if (blasting) {
+                CookingRecipeJsonBuilder.createBlasting(
+                    Ingredient.ofItem(input), RecipeCategory.MISC, ModItems.SILVER_INGOT, 1.0f, cookingTime
+                )
+            } else {
+                CookingRecipeJsonBuilder.createSmelting(
+                    Ingredient.ofItem(input), RecipeCategory.MISC, ModItems.SILVER_INGOT, 1.0f, cookingTime
+                )
+            }
+
+            recipe.group("silver")
+                .criterion(hasItem(input), conditionsFromItem(input))
+                .offerTo(
+                    exporter,
+                    RegistryKey.of(
+                        RegistryKeys.RECIPE,
+                        getIdentifier("silver_ingot_from_${method}_${getItemPath(input)}")
+                    )
+                )
+        }
     }
+
+    override fun getName() = "YJAS Recipes"
 }

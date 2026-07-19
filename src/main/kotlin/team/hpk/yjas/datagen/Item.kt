@@ -49,26 +49,29 @@ class Item(output: FabricDataOutput, completableFuture: CompletableFuture<Wrappe
 
     override fun configure(arg: WrapperLookup) {
         getOrCreateTagBuilder(ORES)
-            .addTag(SILVER_ORES)
+            .addTag(ORES_SILVER)
 
         getOrCreateTagBuilder(ORES_SILVER)
-            .addTag(SILVER_ORES)
-
-        getOrCreateTagBuilder(SILVER_ORES)
             .add(ModItems.DEEPSLATE_SILVER_ORE)
             .add(ModItems.SILVER_ORE)
 
+        getOrCreateTagBuilder(SILVER_ORES)
+            .addTag(ORES_SILVER)
+
         getOrCreateTagBuilder(SILVER_BLOCKS)
-            .add(ModItems.SILVER_BLOCK)
+            .addTag(STORAGE_BLOCKS_SILVER)
 
         getOrCreateTagBuilder(RAW_MATERIALS)
-            .addTag(RAW_SILVER_ORES)
+            .addTag(RAW_MATERIALS_SILVER)
 
         getOrCreateTagBuilder(RAW_MATERIALS_SILVER)
-            .addTag(RAW_SILVER_ORES)
+            .add(ModItems.RAW_SILVER)
 
-//        getOrCreateTagBuilder(RAW_SILVER)
-//            .add(ModItems.RAW_SILVER)
+        getOrCreateTagBuilder(RAW_SILVER)
+            .addTag(RAW_MATERIALS_SILVER)
+
+        getOrCreateTagBuilder(RAW_SILVER_ORES)
+            .addTag(RAW_MATERIALS_SILVER)
 
         getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModItems.DEEPSLATE_SILVER_ORE)
@@ -77,30 +80,27 @@ class Item(output: FabricDataOutput, completableFuture: CompletableFuture<Wrappe
             .add(ModItems.SILVER_ORE)
 
         getOrCreateTagBuilder(INGOTS)
-            .addTag(SILVER_INGOTS)
+            .addTag(INGOTS_SILVER)
 
         getOrCreateTagBuilder(INGOTS_SILVER)
-            .addTag(SILVER_INGOTS)
-
-        getOrCreateTagBuilder(NUGGETS)
-            .addTag(SILVER_NUGGETS)
-
-        getOrCreateTagBuilder(NUGGETS_SILVER)
-            .addTag(SILVER_NUGGETS)
-
-        getOrCreateTagBuilder(SILVER_INGOTS)
             .add(ModItems.SILVER_INGOT)
 
-        getOrCreateTagBuilder(SILVER_NUGGETS)
+        getOrCreateTagBuilder(NUGGETS)
+            .addTag(NUGGETS_SILVER)
+
+        getOrCreateTagBuilder(NUGGETS_SILVER)
             .add(ModItems.SILVER_NUGGET)
 
+        getOrCreateTagBuilder(SILVER_INGOTS)
+            .addTag(INGOTS_SILVER)
+
+        getOrCreateTagBuilder(SILVER_NUGGETS)
+            .addTag(NUGGETS_SILVER)
+
         getOrCreateTagBuilder(STORAGE_BLOCKS)
-            .addTag(SILVER_BLOCKS)
+            .addTag(STORAGE_BLOCKS_SILVER)
 
         getOrCreateTagBuilder(STORAGE_BLOCKS_SILVER)
-            .addTag(SILVER_BLOCKS)
-
-        getOrCreateTagBuilder(RAW_SILVER_ORES)
-            .add(ModItems.RAW_SILVER)
+            .add(ModItems.SILVER_BLOCK)
     }
 }

@@ -44,15 +44,25 @@ object ModItems {
     )
 
 
-    val SILVER_INGOT = SilverIngot(Item.Settings())
-    val SILVER_NUGGET = SilverNugget(Item.Settings())
-    val RAW_SILVER = RawSilver(Item.Settings())
+    val SILVER_INGOT = registerItem("silver_ingot", ::SilverIngot)
+    val SILVER_NUGGET = registerItem("silver_nugget", ::SilverNugget)
+    val RAW_SILVER = registerItem("raw_silver", ::RawSilver)
 
     // Block items
-    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, Item.Settings())
-    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, Item.Settings())
-    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, Item.Settings())
+    val SILVER_ORE = registerBlockItem("silver_ore", ModBlocks.SILVER_ORE)
+    val DEEPSLATE_SILVER_ORE = registerBlockItem("deepslate_silver_ore", ModBlocks.DEEPSLATE_SILVER_ORE)
+    val SILVER_BLOCK = registerBlockItem("silver_block", ModBlocks.SILVER_BLOCK)
 
+    private fun registerItem(name: String, factory: (Item.Settings) -> Item): Item {
+        val key = RegistryKey.of(RegistryKeys.ITEM, getIdentifier(name))
+        return Registry.register(Registries.ITEM, key, factory(Item.Settings().registryKey(key)))
+    }
+
+    private fun registerBlockItem(name: String, block: net.minecraft.block.Block): BlockItem {
+        val key = RegistryKey.of(RegistryKeys.ITEM, getIdentifier(name))
+        val item = BlockItem(block, Item.Settings().registryKey(key).useBlockPrefixedTranslationKey())
+        return Registry.register(Registries.ITEM, key, item)
+    }
 
     fun register() {
         Registry.register(
@@ -71,50 +81,10 @@ object ModItems {
                 }
                 .build()
         )
-
-
-        Registry.register(
-            Registries.ITEM,
-            getIdentifier("silver_ingot"),
-            SILVER_INGOT
-        )
-
-        Registry.register(
-            Registries.ITEM,
-            getIdentifier("silver_nugget"),
-            SILVER_NUGGET
-        )
-
-        Registry.register(
-            Registries.ITEM,
-            getIdentifier("raw_silver"),
-            RAW_SILVER
-        )
-
-        // For block items
-
-        Registry.register(
-            Registries.ITEM,
-            getIdentifier("silver_block"),
-            SILVER_BLOCK
-        )
-
-        Registry.register(
-            Registries.ITEM,
-            getIdentifier("silver_ore"),
-            SILVER_ORE
-        )
-
-        Registry.register(
-            Registries.ITEM,
-            getIdentifier("deepslate_silver_ore"),
-            DEEPSLATE_SILVER_ORE
-        )
-
     }
 }
 
 
-class SilverIngot(settings: Settings?) : Item(settings)
-class SilverNugget(settings: Settings?) : Item(settings)
-class RawSilver(settings: Settings?) : Item(settings)
+class SilverIngot(settings: Settings) : Item(settings)
+class SilverNugget(settings: Settings) : Item(settings)
+class RawSilver(settings: Settings) : Item(settings)

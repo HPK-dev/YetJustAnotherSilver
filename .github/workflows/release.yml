@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew clean runDatagen
 
       - name: build
-        run: ./gradlew build
+        run: ./gradlew clean build
 
       - name: release to Modrinth/Curseforge
         uses: Kir-Antipov/mc-publish@v3.3
@@ -57,8 +57,8 @@ jobs:
 
           loaders: fabric
           game-versions: |
-            1.21
-            1.21.1
+            1.21.4
+            1.21.5
           java: 21
 
           name: "${{ steps.read_property.outputs.archives_base_name }}+${{ steps.read_property.outputs.mod_version }}"

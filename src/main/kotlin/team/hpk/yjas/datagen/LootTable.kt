@@ -43,7 +43,7 @@ class LootTable(output: FabricDataOutput,private val registriesFuture: Completab
         drop: Block, item: ItemConvertible, minDropCount: Float, maxDropCount: Float, registries: RegistryWrapper.WrapperLookup
     ): LootTable.Builder {
 
-        val enchantmentLookup = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
+        val enchantmentLookup = registries.getOrThrow(RegistryKeys.ENCHANTMENT)
         return dropsWithSilkTouch(
             drop,
             applyExplosionDecay(
@@ -68,4 +68,3 @@ class LootTable(output: FabricDataOutput,private val registriesFuture: Completab
         )
     }
 }
-

@@ -1,5 +1,5 @@
 # mod
-src/main/generated/
+src/main/generated/.cache/
 
 # gradle
 
@@ -41,4 +41,3 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
-

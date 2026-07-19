@@ -25,7 +25,7 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import java.util.concurrent.CompletableFuture
 
-class WorldGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>?) :
+class WorldGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricDynamicRegistryProvider(output, registriesFuture) {
     override fun getName(): String {
         return "World Gen"
@@ -33,7 +33,7 @@ class WorldGen(output: FabricDataOutput, registriesFuture: CompletableFuture<Reg
 
 
     override fun configure(registries: RegistryWrapper.WrapperLookup, entries: Entries) {
-        entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE))
-        entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE))
+        entries.addAll(registries.getOrThrow(RegistryKeys.CONFIGURED_FEATURE))
+        entries.addAll(registries.getOrThrow(RegistryKeys.PLACED_FEATURE))
     }
 }

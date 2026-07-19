@@ -24,12 +24,14 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.registry.tag.BlockTags
 import team.hpk.yjas.block.ModBlocks
-import team.hpk.yjas.datagen.ModTags.Blocks.BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES
+import team.hpk.yjas.datagen.ModTags.Blocks.ORES_SILVER
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_STONE
 import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_ORES
+import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS
+import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS_SILVER
 import java.util.concurrent.CompletableFuture
 
 open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<WrapperLookup>) :
@@ -38,18 +40,23 @@ open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<
 
     override fun configure(arg: WrapperLookup) {
         getOrCreateTagBuilder(ORES)
-            .addTag(SILVER_ORES)
+            .addTag(ORES_SILVER)
 
-//        getOrCreateTagBuilder(BLOCKS)
-//            .addTag(SILVER_BLOCKS)
-//            .addTag(SILVER_ORES)
-
-        getOrCreateTagBuilder(SILVER_ORES)
+        getOrCreateTagBuilder(ORES_SILVER)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
             .add(ModBlocks.SILVER_ORE)
 
-        getOrCreateTagBuilder(SILVER_BLOCKS)
+        getOrCreateTagBuilder(SILVER_ORES)
+            .addTag(ORES_SILVER)
+
+        getOrCreateTagBuilder(STORAGE_BLOCKS)
+            .addTag(STORAGE_BLOCKS_SILVER)
+
+        getOrCreateTagBuilder(STORAGE_BLOCKS_SILVER)
             .add(ModBlocks.SILVER_BLOCK)
+
+        getOrCreateTagBuilder(SILVER_BLOCKS)
+            .addTag(STORAGE_BLOCKS_SILVER)
 
         getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
@@ -59,11 +66,11 @@ open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<
 
         // Minecraft vanilla tags
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-            .addTag(SILVER_ORES)
-            .addTag(SILVER_BLOCKS)
+            .addTag(ORES_SILVER)
+            .addTag(STORAGE_BLOCKS_SILVER)
 
         getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)
-            .addTag(SILVER_ORES)
-            .addTag(SILVER_BLOCKS)
+            .addTag(ORES_SILVER)
+            .addTag(STORAGE_BLOCKS_SILVER)
     }
 }
