@@ -21,10 +21,9 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
-import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.RecipeExporter
 import net.minecraft.recipe.book.RecipeCategory
 import team.hpk.yjas.item.ModItems
-import java.util.function.Consumer
 
 class Recipe(output: FabricDataOutput) : FabricRecipeProvider(output) {
 
@@ -36,7 +35,7 @@ class Recipe(output: FabricDataOutput) : FabricRecipeProvider(output) {
         )
     }
 
-    override fun generate(exporter: Consumer<RecipeJsonProvider>) {
+    override fun generate(exporter: RecipeExporter) {
         offerSmelting(
             exporter, SILVER_MELTABLE,
             RecipeCategory.MISC, ModItems.SILVER_INGOT,
