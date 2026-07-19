@@ -1,11 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.17.16'
     id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm" version "2.1.21"
+    id "org.jetbrains.kotlin.jvm" version "2.4.10"
     id("io.github.p03w.machete") version "2.0.1"
-    id("org.cadixdev.licenser") version "0.6.1"
 }
 
 version = project.mod_version
@@ -24,7 +23,10 @@ repositories {
 }
 
 fabricApi {
-    configureDataGeneration()
+    configureDataGeneration {
+        client = true
+        strictValidation = true
+    }
 }
 
 dependencies {
@@ -90,10 +92,4 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
-}
-
-license {
-    header.set(project.resources.text.fromFile("HEADER.txt"))
-
-    exclude("**/*.properties")
 }

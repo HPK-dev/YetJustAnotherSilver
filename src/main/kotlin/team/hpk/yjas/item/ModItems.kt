@@ -44,14 +44,20 @@ object ModItems {
     )
 
 
-    val SILVER_INGOT = SilverIngot(Item.Settings())
-    val SILVER_NUGGET = SilverNugget(Item.Settings())
-    val RAW_SILVER = RawSilver(Item.Settings())
+    private fun settings(name: String): Item.Settings = Item.Settings()
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, getIdentifier(name)))
+
+    val SILVER_INGOT = SilverIngot(settings("silver_ingot"))
+    val SILVER_NUGGET = SilverNugget(settings("silver_nugget"))
+    val RAW_SILVER = RawSilver(settings("raw_silver"))
 
     // Block items
-    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, Item.Settings())
-    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, Item.Settings())
-    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, Item.Settings())
+    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, settings("silver_ore").useBlockPrefixedTranslationKey())
+    val DEEPSLATE_SILVER_ORE = BlockItem(
+        ModBlocks.DEEPSLATE_SILVER_ORE,
+        settings("deepslate_silver_ore").useBlockPrefixedTranslationKey()
+    )
+    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, settings("silver_block").useBlockPrefixedTranslationKey())
 
 
     fun register() {
@@ -115,6 +121,6 @@ object ModItems {
 }
 
 
-class SilverIngot(settings: Settings?) : Item(settings)
-class SilverNugget(settings: Settings?) : Item(settings)
-class RawSilver(settings: Settings?) : Item(settings)
+class SilverIngot(settings: Settings) : Item(settings)
+class SilverNugget(settings: Settings) : Item(settings)
+class RawSilver(settings: Settings) : Item(settings)

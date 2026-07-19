@@ -23,32 +23,26 @@ import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import team.hpk.yjas.Utils.getIdentifier
 
 
 object ModBlocks {
 
-    val SILVER_BLOCK: Block = Block(
-        AbstractBlock.Settings
-            .create()
-            .strength(4.0f)
-            .requiresTool()
-    )
+    private fun create(name: String, strength: Float): Block {
+        val key = RegistryKey.of(RegistryKeys.BLOCK, getIdentifier(name))
+        return Block(
+            AbstractBlock.Settings.create()
+                .registryKey(key)
+                .strength(strength)
+                .requiresTool()
+        )
+    }
 
-    val SILVER_ORE: Block = Block(
-        AbstractBlock.Settings
-            .create()
-            .strength(3.0f)
-            .requiresTool()
-    )
-
-    val DEEPSLATE_SILVER_ORE: Block = Block(
-        AbstractBlock.Settings
-            .create()
-            .strength(4.5f)
-            .requiresTool()
-    )
-
+    val SILVER_BLOCK = create("silver_block", 4.0f)
+    val SILVER_ORE = create("silver_ore", 3.0f)
+    val DEEPSLATE_SILVER_ORE = create("deepslate_silver_ore", 4.5f)
 
     fun register() {
         Registry.register(
