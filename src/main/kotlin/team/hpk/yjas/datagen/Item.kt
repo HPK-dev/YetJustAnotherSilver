@@ -22,19 +22,24 @@ package team.hpk.yjas.datagen
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import team.hpk.yjas.datagen.ModTags.Items.INGOTS
+import team.hpk.yjas.datagen.ModTags.Items.INGOTS_SILVER
 import team.hpk.yjas.datagen.ModTags.Items.NUGGETS
+import team.hpk.yjas.datagen.ModTags.Items.NUGGETS_SILVER
 import team.hpk.yjas.datagen.ModTags.Items.ORES
 import team.hpk.yjas.datagen.ModTags.Items.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Items.ORES_IN_GROUND_STONE
+import team.hpk.yjas.datagen.ModTags.Items.ORES_SILVER
+import team.hpk.yjas.datagen.ModTags.Items.RAW_MATERIALS
+import team.hpk.yjas.datagen.ModTags.Items.RAW_MATERIALS_SILVER
 import team.hpk.yjas.datagen.ModTags.Items.RAW_ORES
-import team.hpk.yjas.datagen.ModTags.Items.RAW_SILVER
 import team.hpk.yjas.datagen.ModTags.Items.RAW_SILVER_ORES
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_INGOTS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_NUGGETS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_ORES
+import team.hpk.yjas.datagen.ModTags.Items.STORAGE_BLOCKS
+import team.hpk.yjas.datagen.ModTags.Items.STORAGE_BLOCKS_SILVER
 import team.hpk.yjas.item.ModItems
-import java.util.concurrent.CompletableFuture
 
 class Item(output: FabricDataGenerator) :
     FabricTagProvider.ItemTagProvider(output) {
@@ -42,6 +47,9 @@ class Item(output: FabricDataGenerator) :
 
     override fun generateTags() {
         getOrCreateTagBuilder(ORES)
+            .addTag(SILVER_ORES)
+
+        getOrCreateTagBuilder(ORES_SILVER)
             .addTag(SILVER_ORES)
 
         getOrCreateTagBuilder(SILVER_ORES)
@@ -54,8 +62,11 @@ class Item(output: FabricDataGenerator) :
         getOrCreateTagBuilder(RAW_ORES)
             .addTag(RAW_SILVER_ORES)
 
-//        getOrCreateTagBuilder(RAW_SILVER)
-//            .add(ModItems.RAW_SILVER)
+        getOrCreateTagBuilder(RAW_MATERIALS)
+            .addTag(RAW_SILVER_ORES)
+
+        getOrCreateTagBuilder(RAW_MATERIALS_SILVER)
+            .addTag(RAW_SILVER_ORES)
 
         getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModItems.DEEPSLATE_SILVER_ORE)
@@ -66,7 +77,13 @@ class Item(output: FabricDataGenerator) :
         getOrCreateTagBuilder(INGOTS)
             .addTag(SILVER_INGOTS)
 
+        getOrCreateTagBuilder(INGOTS_SILVER)
+            .addTag(SILVER_INGOTS)
+
         getOrCreateTagBuilder(NUGGETS)
+            .addTag(SILVER_NUGGETS)
+
+        getOrCreateTagBuilder(NUGGETS_SILVER)
             .addTag(SILVER_NUGGETS)
 
         getOrCreateTagBuilder(SILVER_INGOTS)
@@ -74,6 +91,12 @@ class Item(output: FabricDataGenerator) :
 
         getOrCreateTagBuilder(SILVER_NUGGETS)
             .add(ModItems.SILVER_NUGGET)
+
+        getOrCreateTagBuilder(STORAGE_BLOCKS)
+            .addTag(SILVER_BLOCKS)
+
+        getOrCreateTagBuilder(STORAGE_BLOCKS_SILVER)
+            .addTag(SILVER_BLOCKS)
 
         getOrCreateTagBuilder(RAW_SILVER_ORES)
             .add(ModItems.RAW_SILVER)

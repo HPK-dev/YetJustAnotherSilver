@@ -1,2 +1,2 @@
-Add 1.21/1.21.1 experimental support.  
-Extend ore generation to minus Y levels.
+Fix Minecraft 1.19.2 compilation, data generation, tags, and world generation.
+Add optional Create recipe integration when Create is installed.

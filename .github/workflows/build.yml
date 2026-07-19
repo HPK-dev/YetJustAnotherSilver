@@ -12,7 +12,7 @@ jobs:
       matrix:
         # Use these Java versions
         java: [
-          21,    # Current Java LTS
+          17,
         ]
     runs-on: ubuntu-22.04
     steps:
@@ -27,10 +27,12 @@ jobs:
           distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: generate data
+        run: ./gradlew clean runDatagen
       - name: build
         run: ./gradlew build
       - name: capture build artifacts
-        if: ${{ matrix.java == '21' }} # Only upload artifacts built from latest java
+        if: ${{ matrix.java == '17' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts

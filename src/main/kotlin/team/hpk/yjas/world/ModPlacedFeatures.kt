@@ -19,9 +19,8 @@
 
 package team.hpk.yjas.world
 
-import net.minecraft.registry.Registerable
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.registry.BuiltinRegistries
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier
@@ -30,22 +29,21 @@ import team.hpk.yjas.Utils.getIdentifier
 class ModPlacedFeatures {
 
     companion object {
-        val SILVER_ORE_PLACED_KEY: RegistryKey<PlacedFeature> =
-            RegistryKey.of(RegistryKeys.PLACED_FEATURE, getIdentifier("silver_ore_placed"))
+        val SILVER_ORE_PLACED_KEY: RegistryKey<PlacedFeature> = RegistryKey.of(
+            net.minecraft.util.registry.Registry.PLACED_FEATURE_KEY,
+            getIdentifier("silver_ore_placed")
+        )
 
-
-        fun boostrap(context: Registerable<PlacedFeature>) {
-            val configuredFeature = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE)
-            context.register(
+        val SILVER_ORE_PLACED = BuiltinRegistries.add(
+                BuiltinRegistries.PLACED_FEATURE,
                 SILVER_ORE_PLACED_KEY,
                 PlacedFeature(
-                    configuredFeature.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                    ModConfiguredFeatures.SILVER_ORE,
                     ModOrePlacements.modifiersWithCount(
-                        4 /*Veins per chunk*/,
-                        HeightRangePlacementModifier.uniform(YOffset.fixed(5), YOffset.fixed(40))
+                        8,
+                        HeightRangePlacementModifier.uniform(YOffset.fixed(-63), YOffset.fixed(40))
                     )
                 )
             )
-        }
     }
 }

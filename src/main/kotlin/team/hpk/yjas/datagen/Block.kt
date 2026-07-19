@@ -27,9 +27,11 @@ import team.hpk.yjas.datagen.ModTags.Blocks.BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_STONE
+import team.hpk.yjas.datagen.ModTags.Blocks.ORES_SILVER
 import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_ORES
-import java.util.concurrent.CompletableFuture
+import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS
+import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS_SILVER
 
 open class Block(output: FabricDataGenerator) :
     FabricTagProvider.BlockTagProvider(output) {
@@ -39,9 +41,8 @@ open class Block(output: FabricDataGenerator) :
         getOrCreateTagBuilder(ORES)
             .addTag(SILVER_ORES)
 
-//        getOrCreateTagBuilder(BLOCKS)
-//            .addTag(SILVER_BLOCKS)
-//            .addTag(SILVER_ORES)
+        getOrCreateTagBuilder(ORES_SILVER)
+            .addTag(SILVER_ORES)
 
         getOrCreateTagBuilder(SILVER_ORES)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
@@ -49,6 +50,12 @@ open class Block(output: FabricDataGenerator) :
 
         getOrCreateTagBuilder(SILVER_BLOCKS)
             .add(ModBlocks.SILVER_BLOCK)
+
+        getOrCreateTagBuilder(STORAGE_BLOCKS)
+            .addTag(SILVER_BLOCKS)
+
+        getOrCreateTagBuilder(STORAGE_BLOCKS_SILVER)
+            .addTag(SILVER_BLOCKS)
 
         getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
