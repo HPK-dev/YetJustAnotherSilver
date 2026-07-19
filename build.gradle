@@ -1,9 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT'
     id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm" version "2.0.0"
+    id "org.jetbrains.kotlin.jvm" version "2.1.21"
     id("io.github.p03w.machete") version "2.0.1"
     id("org.cadixdev.licenser") version "0.6.1"
 }
@@ -39,10 +39,11 @@ dependencies {
 }
 
 processResources {
-    inputs.property "version", project.version
+    def modVersion = version
+    inputs.property "version", modVersion
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": modVersion
     }
 }
 
@@ -50,9 +51,9 @@ tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
 }
 
-tasks.withType(KotlinCompile).configureEach {
-    kotlinOptions {
-        jvmTarget = 21
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
     }
 }
 
@@ -67,8 +68,9 @@ java {
 }
 
 jar {
+    def archiveBaseName = base.archivesName.get()
     from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
+        rename { "${it}_${archiveBaseName}" }
     }
 }
 

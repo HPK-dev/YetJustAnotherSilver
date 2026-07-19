@@ -11,7 +11,7 @@
   "contact": {
     "sources": "https://github.com/HPK-dev/YetJustAnotherSilver/"
   },
-  "license": "AGPL-3.0",
+  "license": "AGPL-3.0-or-later",
   "icon": "assets/yjas/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -33,6 +33,6 @@
     "minecraft": ">=1.21 <1.21.2",
     "java": ">=21",
     "fabric-api": "*",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": ">=1.13.3+kotlin.2.1.21"
   }
 }
