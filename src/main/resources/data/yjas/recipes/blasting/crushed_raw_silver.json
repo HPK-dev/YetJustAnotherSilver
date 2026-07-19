@@ -7,5 +7,13 @@
   "ingredient": {
     "item": "create:crushed_raw_silver"
   },
-  "result": "yjas:silver_ingot"
+  "result": "yjas:silver_ingot",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ]
 }

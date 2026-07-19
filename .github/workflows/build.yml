@@ -27,8 +27,30 @@ jobs:
           distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: generate resources
+        run: ./gradlew clean runDatagen
       - name: build
         run: ./gradlew build
+      - name: verify generated resources in jar
+        shell: bash
+        run: |
+          set -euo pipefail
+          jar_file=""
+          for candidate in build/libs/*.jar; do
+            if [[ -f "$candidate" && "$candidate" != *-sources.jar ]]; then
+              jar_file="$candidate"
+              break
+            fi
+          done
+          test -n "$jar_file"
+          jar tf "$jar_file" > build/jar-contents.txt
+          for entry in \
+            assets/yjas/models/item/silver_ingot.json \
+            data/c/tags/items/ingots/silver.json \
+            data/yjas/recipes/silver_ingot.json \
+            data/yjas/worldgen/configured_feature/silver_ore.json; do
+            grep -Fxq "$entry" build/jar-contents.txt
+          done
       - name: capture build artifacts
         if: ${{ matrix.java == '21' }} # Only upload artifacts built from latest java
         uses: actions/upload-artifact@v4
