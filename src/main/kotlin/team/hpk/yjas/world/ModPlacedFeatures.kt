@@ -19,31 +19,32 @@
 
 package team.hpk.yjas.world
 
-import net.minecraft.util.registry.BuiltinRegistries
-import net.minecraft.util.registry.RegistryKey
+import net.minecraft.registry.Registerable
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier
 import team.hpk.yjas.Utils.getIdentifier
 
-class ModPlacedFeatures {
+object ModPlacedFeatures {
 
-    companion object {
-        val SILVER_ORE_PLACED_KEY: RegistryKey<PlacedFeature> = RegistryKey.of(
-            net.minecraft.util.registry.Registry.PLACED_FEATURE_KEY,
-            getIdentifier("silver_ore_placed")
-        )
+    val SILVER_ORE_PLACED_KEY: RegistryKey<PlacedFeature> = RegistryKey.of(
+        RegistryKeys.PLACED_FEATURE,
+        getIdentifier("silver_ore_placed")
+    )
 
-        val SILVER_ORE_PLACED = BuiltinRegistries.add(
-                BuiltinRegistries.PLACED_FEATURE,
-                SILVER_ORE_PLACED_KEY,
-                PlacedFeature(
-                    ModConfiguredFeatures.SILVER_ORE,
-                    ModOrePlacements.modifiersWithCount(
-                        8,
-                        HeightRangePlacementModifier.uniform(YOffset.fixed(-63), YOffset.fixed(40))
-                    )
+    fun bootstrap(registerable: Registerable<PlacedFeature>) {
+        val configuredFeatures = registerable.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE)
+        registerable.register(
+            SILVER_ORE_PLACED_KEY,
+            PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                ModOrePlacements.modifiersWithCount(
+                    8,
+                    HeightRangePlacementModifier.uniform(YOffset.fixed(-63), YOffset.fixed(40))
                 )
             )
+        )
     }
 }

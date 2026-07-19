@@ -19,11 +19,11 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
-import net.minecraft.tag.BlockTags
+import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.tag.BlockTags
 import team.hpk.yjas.block.ModBlocks
-import team.hpk.yjas.datagen.ModTags.Blocks.BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_STONE
@@ -32,12 +32,15 @@ import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_ORES
 import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS_SILVER
+import java.util.concurrent.CompletableFuture
 
-open class Block(output: FabricDataGenerator) :
-    FabricTagProvider.BlockTagProvider(output) {
+open class Block(
+    output: FabricDataOutput,
+    registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
+) : FabricTagProvider.BlockTagProvider(output, registriesFuture) {
 
 
-    override fun generateTags() {
+    override fun configure(arg: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(ORES)
             .addTag(SILVER_ORES)
 

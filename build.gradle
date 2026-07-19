@@ -40,6 +40,8 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    // Datagen writes resources after its launch-time processResources pass.
+    outputs.upToDateWhen { !file("src/main/generated").exists() }
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version

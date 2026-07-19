@@ -21,13 +21,24 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.minecraft.registry.RegistryBuilder
+import net.minecraft.registry.RegistryKeys
+import team.hpk.yjas.world.ModConfiguredFeatures
+import team.hpk.yjas.world.ModPlacedFeatures
 
 object DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
-        fabricDataGenerator.addProvider(::Item)
-        fabricDataGenerator.addProvider(::Block)
-        fabricDataGenerator.addProvider(::LootTable)
-        fabricDataGenerator.addProvider(::Recipe)
-        fabricDataGenerator.addProvider(::Model)
+        val pack = fabricDataGenerator.createPack()
+        val blockTags = pack.addProvider(::Block)
+        pack.addProvider { output, registries -> Item(output, registries, blockTags) }
+        pack.addProvider(::LootTable)
+        pack.addProvider(::Recipe)
+        pack.addProvider(::Model)
+        pack.addProvider(::World)
+    }
+
+    override fun buildRegistry(registryBuilder: RegistryBuilder) {
+        registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
+        registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
     }
 }
