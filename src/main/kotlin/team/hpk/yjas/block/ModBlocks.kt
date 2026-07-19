@@ -22,7 +22,8 @@ package team.hpk.yjas.block
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Material
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
 import team.hpk.yjas.Utils.getIdentifier
 
 
@@ -52,19 +53,19 @@ object ModBlocks {
 
     fun register() {
         Registry.register(
-            Registry.BLOCK,
+            Registries.BLOCK,
             getIdentifier("silver_block"),
             SILVER_BLOCK
         )
 
         Registry.register(
-            Registry.BLOCK,
+            Registries.BLOCK,
             getIdentifier("silver_ore"),
             SILVER_ORE
         )
 
         Registry.register(
-            Registry.BLOCK,
+            Registries.BLOCK,
             getIdentifier("deepslate_silver_ore"),
             DEEPSLATE_SILVER_ORE
         )

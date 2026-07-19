@@ -21,15 +21,15 @@ package team.hpk.yjas.datagen
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 object ModTags {
 
     object Items {
         private fun key(id: String): TagKey<Item> =
-            TagKey.of(Registry.ITEM_KEY, Identifier(id))
+            TagKey.of(RegistryKeys.ITEM, Identifier(id))
 
         val ORES = key("c:ores")
         val ORES_SILVER = key("c:ores/silver")
@@ -55,7 +55,7 @@ object ModTags {
 
     object Blocks {
         private fun key(id: String): TagKey<Block> =
-            TagKey.of(Registry.BLOCK_KEY, Identifier(id))
+            TagKey.of(RegistryKeys.BLOCK, Identifier(id))
 
         val ORES = key("c:ores")
         val BLOCKS = key("c:blocks")

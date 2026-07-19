@@ -19,7 +19,7 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.enchantment.Enchantments
@@ -33,7 +33,7 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
 
-class LootTable(output: FabricDataGenerator) : FabricBlockLootTableProvider(output) {
+class LootTable(output: FabricDataOutput) : FabricBlockLootTableProvider(output) {
 
 
     private fun oreLikeDrops(
@@ -50,7 +50,7 @@ class LootTable(output: FabricDataGenerator) : FabricBlockLootTableProvider(outp
         )
     }
 
-    override fun generateBlockLootTables() {
+    override fun generate() {
         addDrop(ModBlocks.SILVER_BLOCK)
         addDrop(
             ModBlocks.SILVER_ORE,
@@ -66,4 +66,3 @@ class LootTable(output: FabricDataGenerator) : FabricBlockLootTableProvider(outp
 
 
 }
-
