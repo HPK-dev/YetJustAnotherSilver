@@ -21,12 +21,14 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
-import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.RecipeExporter
 import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.RegistryWrapper
 import team.hpk.yjas.item.ModItems
-import java.util.function.Consumer
+import java.util.concurrent.CompletableFuture
 
-class Recipe(output: FabricDataOutput) : FabricRecipeProvider(output) {
+class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
+    FabricRecipeProvider(output, registriesFuture) {
 
     companion object {
         private val SILVER_MELTABLE = listOf(
@@ -36,7 +38,7 @@ class Recipe(output: FabricDataOutput) : FabricRecipeProvider(output) {
         )
     }
 
-    override fun generate(exporter: Consumer<RecipeJsonProvider>) {
+    override fun generate(exporter: RecipeExporter) {
         offerSmelting(
             exporter, SILVER_MELTABLE,
             RecipeCategory.MISC, ModItems.SILVER_INGOT,

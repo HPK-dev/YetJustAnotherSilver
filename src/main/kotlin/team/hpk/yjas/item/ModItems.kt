@@ -19,7 +19,6 @@
 
 package team.hpk.yjas.item
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
@@ -41,39 +40,21 @@ object ModItems {
     // item group
     val ITEM_GROUP: RegistryKey<ItemGroup> = RegistryKey.of(
         RegistryKeys.ITEM_GROUP,
-        Identifier(MOD_ID, "item_group")
+        Identifier.of(MOD_ID, "item_group")
     )
 
 
-    val SILVER_INGOT = SilverIngot(FabricItemSettings())
-    val SILVER_NUGGET = SilverNugget(FabricItemSettings())
-    val RAW_SILVER = RawSilver(FabricItemSettings())
+    val SILVER_INGOT = SilverIngot(Item.Settings())
+    val SILVER_NUGGET = SilverNugget(Item.Settings())
+    val RAW_SILVER = RawSilver(Item.Settings())
 
     // Block items
-    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, FabricItemSettings())
-    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, FabricItemSettings())
-    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, FabricItemSettings())
+    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, Item.Settings())
+    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, Item.Settings())
+    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, Item.Settings())
 
 
     fun register() {
-        Registry.register(
-            Registries.ITEM_GROUP,
-            ITEM_GROUP,
-            FabricItemGroup.builder()
-                .displayName(getTranslatableKey("item_group"))
-                .icon { ItemStack(SILVER_INGOT) }
-                .entries { _, entries ->
-                    entries.add(SILVER_INGOT)
-                    entries.add(SILVER_NUGGET)
-                    entries.add(SILVER_BLOCK)
-                    entries.add(RAW_SILVER)
-                    entries.add(SILVER_ORE)
-                    entries.add(DEEPSLATE_SILVER_ORE)
-                }
-                .build()
-        )
-
-
         Registry.register(
             Registries.ITEM,
             getIdentifier("silver_ingot"),
@@ -110,6 +91,23 @@ object ModItems {
             Registries.ITEM,
             getIdentifier("deepslate_silver_ore"),
             DEEPSLATE_SILVER_ORE
+        )
+
+        Registry.register(
+            Registries.ITEM_GROUP,
+            ITEM_GROUP,
+            FabricItemGroup.builder()
+                .displayName(getTranslatableKey("item_group"))
+                .icon { ItemStack(SILVER_INGOT) }
+                .entries { _, entries ->
+                    entries.add(SILVER_INGOT)
+                    entries.add(SILVER_NUGGET)
+                    entries.add(SILVER_BLOCK)
+                    entries.add(RAW_SILVER)
+                    entries.add(SILVER_ORE)
+                    entries.add(DEEPSLATE_SILVER_ORE)
+                }
+                .build()
         )
 
     }

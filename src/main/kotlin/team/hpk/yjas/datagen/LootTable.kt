@@ -30,14 +30,22 @@ import net.minecraft.loot.entry.LootPoolEntry
 import net.minecraft.loot.function.ApplyBonusLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
+import net.minecraft.registry.RegistryWrapper
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
+import java.util.concurrent.CompletableFuture
 
-class LootTable(output: FabricDataOutput) : FabricBlockLootTableProvider(output) {
+class LootTable(
+    output: FabricDataOutput,
+    registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
+) : FabricBlockLootTableProvider(output, registriesFuture) {
 
 
     private fun oreLikeDrops(
-        drop: Block, item: ItemConvertible, minDropCount: Float, maxDropCount: Float
+        drop: Block,
+        item: ItemConvertible,
+        minDropCount: Float,
+        maxDropCount: Float
     ): LootTable.Builder {
         return dropsWithSilkTouch(
             drop,
@@ -66,4 +74,3 @@ class LootTable(output: FabricDataOutput) : FabricBlockLootTableProvider(output)
 
 
 }
-
