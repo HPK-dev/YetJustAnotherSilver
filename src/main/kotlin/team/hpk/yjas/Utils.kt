@@ -19,17 +19,17 @@
 
 package team.hpk.yjas
 
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.Identifier
 import team.hpk.yjas.ModMain.MOD_ID
 
 object Utils {
 
-    fun getTranslatableKey(identifier: String): Text {
-        return Text.translatable("$MOD_ID.$identifier")
+    fun getTranslatableKey(identifier: String): Component {
+        return Component.translatable("$MOD_ID.$identifier")
     }
 
-    fun getIdentifier (identifier: String) : Identifier {
-        return Identifier.of(MOD_ID , identifier)
+    fun getIdentifier(identifier: String): Identifier {
+        return Identifier.fromNamespaceAndPath(MOD_ID, identifier)
     }
 }

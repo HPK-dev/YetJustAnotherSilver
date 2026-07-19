@@ -33,8 +33,8 @@ object ModMain : ModInitializer {
 
     override fun onInitialize() {
         LOGGER.info("We add silver to your game!")
-        ModItems.register()
-        ModBlocks.register()
+        ModBlocks.initialize()
+        ModItems.initialize()
         ModWorldGeneration.generateModWorldGen()
     }
 

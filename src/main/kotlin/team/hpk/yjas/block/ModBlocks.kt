@@ -19,56 +19,31 @@
 
 package team.hpk.yjas.block
 
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockBehaviour
 import team.hpk.yjas.Utils.getIdentifier
 
 
 object ModBlocks {
 
-    val SILVER_BLOCK: Block = Block(
-        AbstractBlock.Settings
-            .create()
-            .strength(4.0f)
-            .requiresTool()
-    )
+    val SILVER_BLOCK = register("silver_block", 4.0f)
+    val SILVER_ORE = register("silver_ore", 3.0f)
+    val DEEPSLATE_SILVER_ORE = register("deepslate_silver_ore", 4.5f)
 
-    val SILVER_ORE: Block = Block(
-        AbstractBlock.Settings
-            .create()
-            .strength(3.0f)
-            .requiresTool()
-    )
-
-    val DEEPSLATE_SILVER_ORE: Block = Block(
-        AbstractBlock.Settings
-            .create()
-            .strength(4.5f)
-            .requiresTool()
-    )
-
-
-    fun register() {
-        Registry.register(
-            Registries.BLOCK,
-            getIdentifier("silver_block"),
-            SILVER_BLOCK
+    private fun register(name: String, strength: Float): Block {
+        val key = ResourceKey.create(Registries.BLOCK, getIdentifier(name))
+        val block = Block(
+            BlockBehaviour.Properties.of()
+                .strength(strength)
+                .requiresCorrectToolForDrops()
+                .setId(key)
         )
-
-        Registry.register(
-            Registries.BLOCK,
-            getIdentifier("silver_ore"),
-            SILVER_ORE
-        )
-
-        Registry.register(
-            Registries.BLOCK,
-            getIdentifier("deepslate_silver_ore"),
-            DEEPSLATE_SILVER_ORE
-        )
-
-
+        return Registry.register(BuiltInRegistries.BLOCK, key, block)
     }
+
+    fun initialize() = Unit
 }

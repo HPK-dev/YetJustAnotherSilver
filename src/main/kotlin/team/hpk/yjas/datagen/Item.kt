@@ -21,86 +21,81 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.core.HolderLookup
 import team.hpk.yjas.datagen.ModTags.Items.INGOTS
-import team.hpk.yjas.datagen.ModTags.Items.INGOTS_SILVER
+import team.hpk.yjas.datagen.ModTags.Items.LEGACY_RAW_SILVER_ORES
+import team.hpk.yjas.datagen.ModTags.Items.LEGACY_SILVER_BLOCKS
+import team.hpk.yjas.datagen.ModTags.Items.LEGACY_SILVER_INGOTS
+import team.hpk.yjas.datagen.ModTags.Items.LEGACY_SILVER_NUGGETS
+import team.hpk.yjas.datagen.ModTags.Items.LEGACY_SILVER_ORES
 import team.hpk.yjas.datagen.ModTags.Items.NUGGETS
-import team.hpk.yjas.datagen.ModTags.Items.NUGGETS_SILVER
 import team.hpk.yjas.datagen.ModTags.Items.ORES
 import team.hpk.yjas.datagen.ModTags.Items.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Items.ORES_IN_GROUND_STONE
-import team.hpk.yjas.datagen.ModTags.Items.ORES_SILVER
 import team.hpk.yjas.datagen.ModTags.Items.RAW_MATERIALS
-import team.hpk.yjas.datagen.ModTags.Items.RAW_MATERIALS_SILVER
-import team.hpk.yjas.datagen.ModTags.Items.RAW_SILVER
-import team.hpk.yjas.datagen.ModTags.Items.RAW_SILVER_ORES
-import team.hpk.yjas.datagen.ModTags.Items.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_INGOTS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_NUGGETS
 import team.hpk.yjas.datagen.ModTags.Items.SILVER_ORES
+import team.hpk.yjas.datagen.ModTags.Items.SILVER_RAW_MATERIALS
+import team.hpk.yjas.datagen.ModTags.Items.SILVER_STORAGE_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Items.STORAGE_BLOCKS
-import team.hpk.yjas.datagen.ModTags.Items.STORAGE_BLOCKS_SILVER
 import team.hpk.yjas.item.ModItems
 import java.util.concurrent.CompletableFuture
 
-class Item(output: FabricDataOutput, completableFuture: CompletableFuture<WrapperLookup>) :
+class Item(output: FabricDataOutput, completableFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricTagProvider.ItemTagProvider(output, completableFuture) {
 
-
-    override fun configure(arg: WrapperLookup) {
-        getOrCreateTagBuilder(ORES)
+    override fun addTags(arg: HolderLookup.Provider) {
+        valueLookupBuilder(ORES)
             .addTag(SILVER_ORES)
 
-        getOrCreateTagBuilder(ORES_SILVER)
-            .addTag(SILVER_ORES)
-
-        getOrCreateTagBuilder(SILVER_ORES)
+        valueLookupBuilder(SILVER_ORES)
             .add(ModItems.DEEPSLATE_SILVER_ORE)
             .add(ModItems.SILVER_ORE)
 
-        getOrCreateTagBuilder(SILVER_BLOCKS)
-            .add(ModItems.SILVER_BLOCK)
+        valueLookupBuilder(LEGACY_SILVER_ORES)
+            .addTag(SILVER_ORES)
 
-        getOrCreateTagBuilder(RAW_MATERIALS)
-            .addTag(RAW_SILVER_ORES)
-
-        getOrCreateTagBuilder(RAW_MATERIALS_SILVER)
-            .addTag(RAW_SILVER_ORES)
-
-//        getOrCreateTagBuilder(RAW_SILVER)
-//            .add(ModItems.RAW_SILVER)
-
-        getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
+        valueLookupBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModItems.DEEPSLATE_SILVER_ORE)
 
-        getOrCreateTagBuilder(ORES_IN_GROUND_STONE)
+        valueLookupBuilder(ORES_IN_GROUND_STONE)
             .add(ModItems.SILVER_ORE)
 
-        getOrCreateTagBuilder(INGOTS)
+        valueLookupBuilder(RAW_MATERIALS)
+            .addTag(SILVER_RAW_MATERIALS)
+
+        valueLookupBuilder(SILVER_RAW_MATERIALS)
+            .add(ModItems.RAW_SILVER)
+
+        valueLookupBuilder(LEGACY_RAW_SILVER_ORES)
+            .addTag(SILVER_RAW_MATERIALS)
+
+        valueLookupBuilder(INGOTS)
             .addTag(SILVER_INGOTS)
 
-        getOrCreateTagBuilder(INGOTS_SILVER)
-            .addTag(SILVER_INGOTS)
-
-        getOrCreateTagBuilder(NUGGETS)
-            .addTag(SILVER_NUGGETS)
-
-        getOrCreateTagBuilder(NUGGETS_SILVER)
-            .addTag(SILVER_NUGGETS)
-
-        getOrCreateTagBuilder(SILVER_INGOTS)
+        valueLookupBuilder(SILVER_INGOTS)
             .add(ModItems.SILVER_INGOT)
 
-        getOrCreateTagBuilder(SILVER_NUGGETS)
+        valueLookupBuilder(LEGACY_SILVER_INGOTS)
+            .addTag(SILVER_INGOTS)
+
+        valueLookupBuilder(NUGGETS)
+            .addTag(SILVER_NUGGETS)
+
+        valueLookupBuilder(SILVER_NUGGETS)
             .add(ModItems.SILVER_NUGGET)
 
-        getOrCreateTagBuilder(STORAGE_BLOCKS)
-            .addTag(SILVER_BLOCKS)
+        valueLookupBuilder(LEGACY_SILVER_NUGGETS)
+            .addTag(SILVER_NUGGETS)
 
-        getOrCreateTagBuilder(STORAGE_BLOCKS_SILVER)
-            .addTag(SILVER_BLOCKS)
+        valueLookupBuilder(STORAGE_BLOCKS)
+            .addTag(SILVER_STORAGE_BLOCKS)
 
-        getOrCreateTagBuilder(RAW_SILVER_ORES)
-            .add(ModItems.RAW_SILVER)
+        valueLookupBuilder(SILVER_STORAGE_BLOCKS)
+            .add(ModItems.SILVER_BLOCK)
+
+        valueLookupBuilder(LEGACY_SILVER_BLOCKS)
+            .addTag(SILVER_STORAGE_BLOCKS)
     }
 }

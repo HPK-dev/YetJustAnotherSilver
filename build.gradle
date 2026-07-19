@@ -1,11 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
     id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm" version "2.1.21"
+    id 'org.jetbrains.kotlin.jvm' version "${kotlin_version}"
     id("io.github.p03w.machete") version "2.0.1"
-    id("org.cadixdev.licenser") version "0.6.1"
 }
 
 version = project.mod_version
@@ -24,17 +23,19 @@ repositories {
 }
 
 fabricApi {
-    configureDataGeneration()
+    configureDataGeneration {
+        client = true
+    }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
@@ -90,10 +91,4 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
-}
-
-license {
-    header.set(project.resources.text.fromFile("HEADER.txt"))
-
-    exclude("**/*.properties")
 }

@@ -21,13 +21,15 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
-import net.minecraft.data.server.recipe.RecipeExporter
-import net.minecraft.recipe.book.RecipeCategory
-import team.hpk.yjas.item.ModItems
-import net.minecraft.registry.RegistryWrapper
+import net.minecraft.core.HolderLookup
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.data.recipes.RecipeOutput
+import net.minecraft.data.recipes.RecipeProvider
 import java.util.concurrent.CompletableFuture
+import team.hpk.yjas.item.ModItems
 
-class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricRecipeProvider(output, registriesFuture) {
+class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+    FabricRecipeProvider(output, registriesFuture) {
 
     companion object {
         private val SILVER_MELTABLE = listOf(
@@ -37,32 +39,33 @@ class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<Regis
         )
     }
 
-    override fun generate(exporter: RecipeExporter) {
-        offerSmelting(
-            exporter, SILVER_MELTABLE,
-            RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            1.0f, 200, "silver"
-        )
+    override fun createRecipeProvider(registryLookup: HolderLookup.Provider, exporter: RecipeOutput): RecipeProvider =
+        object : RecipeProvider(registryLookup, exporter) {
+            override fun buildRecipes() {
+                oreSmelting(SILVER_MELTABLE, RecipeCategory.MISC, ModItems.SILVER_INGOT, 1.0f, 200, "silver")
+                oreBlasting(SILVER_MELTABLE, RecipeCategory.MISC, ModItems.SILVER_INGOT, 1.0f, 200, "silver")
 
-        offerBlasting(
-            exporter, SILVER_MELTABLE, RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            1.0f, 200, "silver"
-        )
+                nineBlockStorageRecipesWithCustomPacking(
+                    RecipeCategory.MISC,
+                    ModItems.SILVER_INGOT,
+                    RecipeCategory.BUILDING_BLOCKS,
+                    ModItems.SILVER_BLOCK,
+                    "silver_block_from_ingot",
+                    "silver"
+                )
 
-        offerReversibleCompactingRecipesWithCompactingRecipeGroup(
-            exporter,
-            RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            RecipeCategory.BUILDING_BLOCKS, ModItems.SILVER_BLOCK,
-            "silver_block_from_ingot","silver"
-        )
+                nineBlockStorageRecipesWithCustomPacking(
+                    RecipeCategory.MISC,
+                    ModItems.SILVER_NUGGET,
+                    RecipeCategory.MISC,
+                    ModItems.SILVER_INGOT,
+                    "silver_ingot_from_nugget",
+                    "silver"
+                )
+            }
+        }
 
-        offerReversibleCompactingRecipesWithCompactingRecipeGroup(
-            exporter,
-            RecipeCategory.MISC, ModItems.SILVER_NUGGET,
-            RecipeCategory.MISC, ModItems.SILVER_INGOT,
-            "silver_ingot_from_nugget","silver"
-        )
-
-
+    override fun getName(): String {
+        return "Silver Recipes"
     }
 }

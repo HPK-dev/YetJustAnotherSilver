@@ -21,51 +21,51 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
-import net.minecraft.block.Block
-import net.minecraft.enchantment.Enchantments
-import net.minecraft.item.ItemConvertible
-import net.minecraft.loot.LootTable
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.entry.LootPoolEntry
-import net.minecraft.loot.function.ApplyBonusLootFunction
-import net.minecraft.loot.function.SetCountLootFunction
-import net.minecraft.loot.provider.number.UniformLootNumberProvider
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.Registries
+import net.minecraft.world.item.enchantment.Enchantments
+import net.minecraft.world.level.ItemLike
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
+import java.util.concurrent.CompletableFuture
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.RegistryWrapper
-import java.util.concurrent.CompletableFuture
 
-class LootTable(output: FabricDataOutput,private val registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricBlockLootTableProvider(output, registriesFuture) {
-
+class LootTable(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+    FabricBlockLootTableProvider(output, registriesFuture) {
 
     private fun oreLikeDrops(
-        drop: Block, item: ItemConvertible, minDropCount: Float, maxDropCount: Float, registries: RegistryWrapper.WrapperLookup
+        drop: Block,
+        item: ItemLike,
+        minDropCount: Float,
+        maxDropCount: Float
     ): LootTable.Builder {
-
-        val enchantmentLookup = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
-        return dropsWithSilkTouch(
+        val enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT)
+        return createSilkTouchDispatchTable(
             drop,
             applyExplosionDecay(
                 drop,
-                ItemEntry.builder(item)
-                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(minDropCount, maxDropCount)))
-                    .apply(ApplyBonusLootFunction.oreDrops(enchantmentLookup.getOrThrow(Enchantments.FORTUNE)))
-            ) as LootPoolEntry.Builder<*>
+                LootItem.lootTableItem(item)
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(minDropCount, maxDropCount)))
+                    .apply(ApplyBonusCount.addOreBonusCount(enchantmentLookup.getOrThrow(Enchantments.FORTUNE)))
+            ) as LootPoolEntryContainer.Builder<*>
         )
     }
 
     override fun generate() {
-        val registries = this.registriesFuture.get()
-        addDrop(ModBlocks.SILVER_BLOCK)
-        addDrop(
+        dropSelf(ModBlocks.SILVER_BLOCK)
+        add(
             ModBlocks.SILVER_ORE,
-            oreLikeDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f, registries)
+            oreLikeDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f)
         )
-        addDrop(
+        add(
             ModBlocks.DEEPSLATE_SILVER_ORE,
-            oreLikeDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f, registries)
+            oreLikeDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f)
         )
     }
 }
-

@@ -19,30 +19,28 @@
 
 package team.hpk.yjas.datagen
 
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.ItemModelGenerator
-import net.minecraft.data.client.Models
+import net.minecraft.client.data.models.BlockModelGenerators
+import net.minecraft.client.data.models.ItemModelGenerators
+import net.minecraft.client.data.models.model.ModelTemplates
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
 
 class Model(output: FabricDataOutput) : FabricModelProvider(output) {
-    override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
         blockStateModelGenerator.apply {
-            registerSimpleCubeAll(ModBlocks.SILVER_BLOCK)
-            registerSimpleCubeAll(ModBlocks.SILVER_ORE)
-            registerSimpleCubeAll(ModBlocks.DEEPSLATE_SILVER_ORE)
+            createTrivialCube(ModBlocks.SILVER_BLOCK)
+            createTrivialCube(ModBlocks.SILVER_ORE)
+            createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
         }
     }
 
-    override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerators) {
         itemModelGenerator.apply {
-            register(ModItems.RAW_SILVER, Models.GENERATED)
-            register(ModItems.SILVER_INGOT, Models.GENERATED)
-            register(ModItems.SILVER_NUGGET, Models.GENERATED)
-
+            generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
+            generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
+            generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
         }
     }
-
 }

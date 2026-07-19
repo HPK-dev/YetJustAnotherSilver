@@ -21,49 +21,54 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
-import net.minecraft.registry.tag.BlockTags
+import net.minecraft.core.HolderLookup
+import net.minecraft.tags.BlockTags
 import team.hpk.yjas.block.ModBlocks
-import team.hpk.yjas.datagen.ModTags.Blocks.BLOCKS
+import team.hpk.yjas.datagen.ModTags.Blocks.LEGACY_SILVER_BLOCKS
+import team.hpk.yjas.datagen.ModTags.Blocks.LEGACY_SILVER_ORES
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_STONE
-import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_ORES
+import team.hpk.yjas.datagen.ModTags.Blocks.SILVER_STORAGE_BLOCKS
+import team.hpk.yjas.datagen.ModTags.Blocks.STORAGE_BLOCKS
 import java.util.concurrent.CompletableFuture
 
-open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<WrapperLookup>) :
+class Block(output: FabricDataOutput, completableFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricTagProvider.BlockTagProvider(output, completableFuture) {
 
-
-    override fun configure(arg: WrapperLookup) {
-        getOrCreateTagBuilder(ORES)
+    override fun addTags(arg: HolderLookup.Provider) {
+        valueLookupBuilder(ORES)
             .addTag(SILVER_ORES)
 
-//        getOrCreateTagBuilder(BLOCKS)
-//            .addTag(SILVER_BLOCKS)
-//            .addTag(SILVER_ORES)
-
-        getOrCreateTagBuilder(SILVER_ORES)
+        valueLookupBuilder(SILVER_ORES)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
             .add(ModBlocks.SILVER_ORE)
 
-        getOrCreateTagBuilder(SILVER_BLOCKS)
+        valueLookupBuilder(LEGACY_SILVER_ORES)
+            .addTag(SILVER_ORES)
+
+        valueLookupBuilder(STORAGE_BLOCKS)
+            .addTag(SILVER_STORAGE_BLOCKS)
+
+        valueLookupBuilder(SILVER_STORAGE_BLOCKS)
             .add(ModBlocks.SILVER_BLOCK)
 
-        getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
+        valueLookupBuilder(LEGACY_SILVER_BLOCKS)
+            .addTag(SILVER_STORAGE_BLOCKS)
+
+        valueLookupBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
 
-        getOrCreateTagBuilder(ORES_IN_GROUND_STONE)
+        valueLookupBuilder(ORES_IN_GROUND_STONE)
             .add(ModBlocks.SILVER_ORE)
 
-        // Minecraft vanilla tags
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
             .addTag(SILVER_ORES)
-            .addTag(SILVER_BLOCKS)
+            .addTag(SILVER_STORAGE_BLOCKS)
 
-        getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)
+        valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
             .addTag(SILVER_ORES)
-            .addTag(SILVER_BLOCKS)
+            .addTag(SILVER_STORAGE_BLOCKS)
     }
 }
