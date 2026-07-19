@@ -20,10 +20,12 @@
 package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.ItemModelGenerator
-import net.minecraft.data.client.Models
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
+import net.minecraft.client.data.BlockStateModelGenerator
+import net.minecraft.client.data.ItemModelGenerator
+import net.minecraft.client.data.ItemModels
+import net.minecraft.client.data.Models
+import net.minecraft.client.data.TextureMap
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
 
@@ -37,11 +39,9 @@ class Model(output: FabricDataOutput) : FabricModelProvider(output) {
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
-        itemModelGenerator.apply {
-            register(ModItems.RAW_SILVER, Models.GENERATED)
-            register(ModItems.SILVER_INGOT, Models.GENERATED)
-            register(ModItems.SILVER_NUGGET, Models.GENERATED)
-
+        listOf(ModItems.RAW_SILVER, ModItems.SILVER_INGOT, ModItems.SILVER_NUGGET).forEach { item ->
+            val modelId = Models.GENERATED.upload(item, TextureMap.layer0(item), itemModelGenerator.modelCollector)
+            itemModelGenerator.output.accept(item, ItemModels.basic(modelId))
         }
     }
 

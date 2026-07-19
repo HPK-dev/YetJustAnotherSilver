@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "yjas:silver_ingot"
+  ],
+  "result": {
+    "count": 9,
+    "id": "yjas:silver_nugget"
+  }
+}

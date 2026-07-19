@@ -37,7 +37,6 @@ object ModTags {
         val SILVER_BLOCKS = key("c:silver_blocks")
         val RAW_MATERIALS = key("c:raw_materials")
         val RAW_MATERIALS_SILVER = key("c:raw_materials/silver")
-        val RAW_SILVER = key("c:raw_silver")
         val RAW_SILVER_ORES= key("c:raw_silver_ores")
         val INGOTS = key("c:ingots")
         val INGOTS_SILVER = key("c:ingots/silver")
@@ -57,7 +56,6 @@ object ModTags {
             TagKey.of(RegistryKeys.BLOCK, Identifier.of(id))
 
         val ORES = key("c:ores")
-        val BLOCKS = key("c:blocks")
         val SILVER_ORES = key("c:silver_ores")
         val SILVER_BLOCKS = key("c:silver_blocks")
         val ORES_IN_GROUND_STONE = key("c:ores_in_ground/stone")

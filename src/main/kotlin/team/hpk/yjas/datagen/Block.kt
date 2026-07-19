@@ -24,7 +24,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.registry.tag.BlockTags
 import team.hpk.yjas.block.ModBlocks
-import team.hpk.yjas.datagen.ModTags.Blocks.BLOCKS
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_DEEPSLATE
 import team.hpk.yjas.datagen.ModTags.Blocks.ORES_IN_GROUND_STONE
@@ -37,32 +36,28 @@ open class Block(output: FabricDataOutput, completableFuture: CompletableFuture<
 
 
     override fun configure(arg: WrapperLookup) {
-        getOrCreateTagBuilder(ORES)
+        valueLookupBuilder(ORES)
             .addTag(SILVER_ORES)
 
-//        getOrCreateTagBuilder(BLOCKS)
-//            .addTag(SILVER_BLOCKS)
-//            .addTag(SILVER_ORES)
-
-        getOrCreateTagBuilder(SILVER_ORES)
+        valueLookupBuilder(SILVER_ORES)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
             .add(ModBlocks.SILVER_ORE)
 
-        getOrCreateTagBuilder(SILVER_BLOCKS)
+        valueLookupBuilder(SILVER_BLOCKS)
             .add(ModBlocks.SILVER_BLOCK)
 
-        getOrCreateTagBuilder(ORES_IN_GROUND_DEEPSLATE)
+        valueLookupBuilder(ORES_IN_GROUND_DEEPSLATE)
             .add(ModBlocks.DEEPSLATE_SILVER_ORE)
 
-        getOrCreateTagBuilder(ORES_IN_GROUND_STONE)
+        valueLookupBuilder(ORES_IN_GROUND_STONE)
             .add(ModBlocks.SILVER_ORE)
 
         // Minecraft vanilla tags
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
             .addTag(SILVER_ORES)
             .addTag(SILVER_BLOCKS)
 
-        getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)
+        valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
             .addTag(SILVER_ORES)
             .addTag(SILVER_BLOCKS)
     }
