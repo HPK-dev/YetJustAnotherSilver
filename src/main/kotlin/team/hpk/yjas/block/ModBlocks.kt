@@ -23,14 +23,21 @@ import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import team.hpk.yjas.Utils.getIdentifier
 
 
 object ModBlocks {
 
+    private val SILVER_BLOCK_KEY = RegistryKey.of(RegistryKeys.BLOCK, getIdentifier("silver_block"))
+    private val SILVER_ORE_KEY = RegistryKey.of(RegistryKeys.BLOCK, getIdentifier("silver_ore"))
+    private val DEEPSLATE_SILVER_ORE_KEY = RegistryKey.of(RegistryKeys.BLOCK, getIdentifier("deepslate_silver_ore"))
+
     val SILVER_BLOCK: Block = Block(
         AbstractBlock.Settings
             .create()
+            .registryKey(SILVER_BLOCK_KEY)
             .strength(4.0f)
             .requiresTool()
     )
@@ -38,6 +45,7 @@ object ModBlocks {
     val SILVER_ORE: Block = Block(
         AbstractBlock.Settings
             .create()
+            .registryKey(SILVER_ORE_KEY)
             .strength(3.0f)
             .requiresTool()
     )
@@ -45,6 +53,7 @@ object ModBlocks {
     val DEEPSLATE_SILVER_ORE: Block = Block(
         AbstractBlock.Settings
             .create()
+            .registryKey(DEEPSLATE_SILVER_ORE_KEY)
             .strength(4.5f)
             .requiresTool()
     )
@@ -53,19 +62,19 @@ object ModBlocks {
     fun register() {
         Registry.register(
             Registries.BLOCK,
-            getIdentifier("silver_block"),
+            SILVER_BLOCK_KEY,
             SILVER_BLOCK
         )
 
         Registry.register(
             Registries.BLOCK,
-            getIdentifier("silver_ore"),
+            SILVER_ORE_KEY,
             SILVER_ORE
         )
 
         Registry.register(
             Registries.BLOCK,
-            getIdentifier("deepslate_silver_ore"),
+            DEEPSLATE_SILVER_ORE_KEY,
             DEEPSLATE_SILVER_ORE
         )
 
