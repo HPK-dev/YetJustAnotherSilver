@@ -31,9 +31,32 @@ jobs:
         run: ./gradlew clean runDatagen
       - name: build
         run: ./gradlew build
+      - name: inspect built artifact
+        run: |
+          JAR="build/libs/YetJustAnotherSilver-${{ env.MOD_VERSION }}.jar"
+          test -f "$JAR"
+          jar tf "$JAR" > jar-contents.txt
+          for resource in \
+            fabric.mod.json \
+            data/yjas/loot_tables/blocks/silver_ore.json \
+            data/yjas/recipes/silver_ingot_from_smelting_silver_ore.json \
+            data/c/tags/items/silver_ingots.json \
+            assets/yjas/blockstates/silver_ore.json \
+            assets/yjas/models/item/silver_ingot.json; do
+            grep -Fx "$resource" jar-contents.txt
+          done
+          if grep -F 'data/yjas/recipes/smelting/crushed_raw_silver.json' jar-contents.txt \
+            || grep -F 'data/yjas/recipes/blasting/crushed_raw_silver.json' jar-contents.txt \
+            || grep -F 'data/yjas/recipes/splashing/crushed_raw_silver.json' jar-contents.txt; then
+            exit 1
+          fi
+          unzip -p "$JAR" fabric.mod.json | grep -F '"minecraft":["1.19","1.19.1"]'
+          unzip -p "$JAR" fabric.mod.json | grep -F '"fabric":"*"'
       - name: capture build artifacts
         if: ${{ matrix.java == '17' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: build/libs/
+    env:
+      MOD_VERSION: 1.0.5+mc1.19-1.19.1

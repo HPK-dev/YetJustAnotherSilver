@@ -15,8 +15,8 @@ so we decided to create a new mod that adds just silver.
 
 Add (deepslate) silver ore, raw silver ,silver ingot, silver nugget and block of silver.
 
-This branch targets Fabric for Minecraft 1.19.2 and requires Java 17.
-Create recipes are loaded only when a compatible Create version is installed.
+This branch targets Fabric for Minecraft 1.19 and 1.19.1 and requires Java 17.
+Create recipes are not included because Create Fabric is unavailable for these versions.
 
 ## Acknowledgement
 
@@ -25,6 +25,6 @@ Create recipes are loaded only when a compatible Create version is installed.
 - [Fabric Modding Tutorial](https://www.youtube.com/list=PLKGarocXCE1EO43Dlf5JGh7Yk-kRAXUEJ):
   Very impressive works, help us a lot.
 
-[Create]:https://modrinth.com/mod/create-fabric/versions?g=1.19.2
+[Create]:https://modrinth.com/mod/create-fabric
 
 [Create Craft & Addition]:https://modrinth.com/mod/createaddition

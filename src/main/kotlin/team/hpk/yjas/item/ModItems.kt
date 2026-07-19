@@ -20,11 +20,9 @@
 package team.hpk.yjas.item
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
 import net.minecraft.util.registry.Registry
 import team.hpk.yjas.Utils.getIdentifier
 import team.hpk.yjas.block.ModBlocks
@@ -32,27 +30,14 @@ import team.hpk.yjas.block.ModBlocks
 
 object ModItems {
 
-    val ITEM_GROUP: ItemGroup = FabricItemGroupBuilder.create(getIdentifier("item_group"))
-        .icon { ItemStack(SILVER_INGOT) }
-        .appendItems { stacks ->
-            stacks.add(ItemStack(SILVER_INGOT))
-            stacks.add(ItemStack(SILVER_NUGGET))
-            stacks.add(ItemStack(SILVER_BLOCK))
-            stacks.add(ItemStack(RAW_SILVER))
-            stacks.add(ItemStack(SILVER_ORE))
-            stacks.add(ItemStack(DEEPSLATE_SILVER_ORE))
-        }
-        .build()
-
-
-    val SILVER_INGOT = SilverIngot(FabricItemSettings().group(ITEM_GROUP))
-    val SILVER_NUGGET = SilverNugget(FabricItemSettings().group(ITEM_GROUP))
-    val RAW_SILVER = RawSilver(FabricItemSettings().group(ITEM_GROUP))
+    val SILVER_INGOT = SilverIngot(FabricItemSettings().group(ItemGroup.MISC))
+    val SILVER_NUGGET = SilverNugget(FabricItemSettings().group(ItemGroup.MISC))
+    val RAW_SILVER = RawSilver(FabricItemSettings().group(ItemGroup.MISC))
 
     // Block items
-    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, FabricItemSettings().group(ITEM_GROUP))
-    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, FabricItemSettings().group(ITEM_GROUP))
-    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, FabricItemSettings().group(ITEM_GROUP))
+    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, FabricItemSettings().group(ItemGroup.MISC))
+    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, FabricItemSettings().group(ItemGroup.MISC))
+    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, FabricItemSettings().group(ItemGroup.MISC))
 
 
     fun register() {
