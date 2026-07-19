@@ -19,13 +19,13 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import java.util.concurrent.CompletableFuture
 
-class WorldGen(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+class WorldGen(output: FabricPackOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricDynamicRegistryProvider(output, registriesFuture) {
     override fun getName(): String {
         return "World Gen"

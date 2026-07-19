@@ -20,14 +20,14 @@
 package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.minecraft.client.data.models.BlockModelGenerators
 import net.minecraft.client.data.models.ItemModelGenerators
 import net.minecraft.client.data.models.model.ModelTemplates
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
 
-class Model(output: FabricDataOutput) : FabricModelProvider(output) {
+class Model(output: FabricPackOutput) : FabricModelProvider(output) {
     override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
         blockStateModelGenerator.apply {
             createTrivialCube(ModBlocks.SILVER_BLOCK)

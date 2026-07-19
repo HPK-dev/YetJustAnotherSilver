@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: 25
 
       - name: make Gradle Wrapper executable
         if: ${{ runner.os != 'Windows' }}
@@ -43,8 +43,21 @@ jobs:
       - name: build
         run: ./gradlew build
 
+      - name: production server compatibility
+        run: |
+          for candidate in build/libs/*.jar; do
+            case "$candidate" in
+              *-sources.jar) ;;
+              *) JAR="$candidate" ;;
+            esac
+          done
+          test -n "${JAR:-}"
+          ./scripts/test-production-server.sh 26.1 0.145.1+26.1 "$JAR"
+          ./scripts/test-production-server.sh 26.1.1 0.145.4+26.1.1 "$JAR"
+          ./scripts/test-production-server.sh 26.1.2 0.155.2+26.1.2 "$JAR"
+
       - name: release to Modrinth/Curseforge
-        uses: Kir-Antipov/mc-publish@v3.3
+        uses: Kira-NT/mc-publish@v3.3.1
         with:
           curseforge-id: 1072043
           curseforge-token: "${{secrets.PUBLISH_CURSEFORGE_TOKEN}}"
@@ -52,12 +65,15 @@ jobs:
           modrinth-id: dsEsgw8u
           modrinth-token: "${{ secrets.PUBLISH_MODRINTH_TOKEN }}"
 
-          version-type: release
+          version-type: beta
           changelog-file: CHANGELOG.md
+          files: build/libs/!(*-sources).jar
 
           loaders: fabric
           game-versions: |
-            1.21.11
-          java: 21
+            26.1
+            26.1.1
+            26.1.2
+          java: 25
 
           name: "${{ steps.read_property.outputs.archives_base_name }}+${{ steps.read_property.outputs.mod_version }}"

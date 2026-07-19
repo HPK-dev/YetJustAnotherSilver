@@ -19,7 +19,7 @@
 
 package team.hpk.yjas.item
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -61,7 +61,7 @@ object ModItems {
         Registry.register(
             BuiltInRegistries.CREATIVE_MODE_TAB,
             ITEM_GROUP_KEY,
-            FabricItemGroup.builder()
+            FabricCreativeModeTab.builder()
                 .title(getTranslatableKey("item_group"))
                 .icon { ItemStack(SILVER_INGOT) }
                 .displayItems { _, entries ->

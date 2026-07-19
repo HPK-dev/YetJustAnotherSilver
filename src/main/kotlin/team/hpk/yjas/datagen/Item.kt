@@ -19,8 +19,8 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider
 import net.minecraft.core.HolderLookup
 import team.hpk.yjas.datagen.ModTags.Items.INGOTS
 import team.hpk.yjas.datagen.ModTags.Items.LEGACY_RAW_SILVER_ORES
@@ -42,8 +42,8 @@ import team.hpk.yjas.datagen.ModTags.Items.STORAGE_BLOCKS
 import team.hpk.yjas.item.ModItems
 import java.util.concurrent.CompletableFuture
 
-class Item(output: FabricDataOutput, completableFuture: CompletableFuture<HolderLookup.Provider>) :
-    FabricTagProvider.ItemTagProvider(output, completableFuture) {
+class Item(output: FabricPackOutput, completableFuture: CompletableFuture<HolderLookup.Provider>) :
+    FabricTagsProvider.ItemTagsProvider(output, completableFuture) {
 
     override fun addTags(arg: HolderLookup.Provider) {
         valueLookupBuilder(ORES)

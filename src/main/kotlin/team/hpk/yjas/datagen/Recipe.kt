@@ -19,16 +19,17 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.data.recipes.RecipeProvider
+import net.minecraft.world.item.crafting.CookingBookCategory
 import java.util.concurrent.CompletableFuture
 import team.hpk.yjas.item.ModItems
 
-class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+class Recipe(output: FabricPackOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricRecipeProvider(output, registriesFuture) {
 
     companion object {
@@ -42,8 +43,24 @@ class Recipe(output: FabricDataOutput, registriesFuture: CompletableFuture<Holde
     override fun createRecipeProvider(registryLookup: HolderLookup.Provider, exporter: RecipeOutput): RecipeProvider =
         object : RecipeProvider(registryLookup, exporter) {
             override fun buildRecipes() {
-                oreSmelting(SILVER_MELTABLE, RecipeCategory.MISC, ModItems.SILVER_INGOT, 1.0f, 200, "silver")
-                oreBlasting(SILVER_MELTABLE, RecipeCategory.MISC, ModItems.SILVER_INGOT, 1.0f, 200, "silver")
+                oreSmelting(
+                    SILVER_MELTABLE,
+                    RecipeCategory.MISC,
+                    CookingBookCategory.MISC,
+                    ModItems.SILVER_INGOT,
+                    1.0f,
+                    200,
+                    "silver"
+                )
+                oreBlasting(
+                    SILVER_MELTABLE,
+                    RecipeCategory.MISC,
+                    CookingBookCategory.MISC,
+                    ModItems.SILVER_INGOT,
+                    1.0f,
+                    100,
+                    "silver"
+                )
 
                 nineBlockStorageRecipesWithCustomPacking(
                     RecipeCategory.MISC,

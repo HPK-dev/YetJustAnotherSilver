@@ -19,8 +19,8 @@
 
 package team.hpk.yjas.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.enchantment.Enchantments
@@ -36,8 +36,8 @@ import java.util.concurrent.CompletableFuture
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
 
-class LootTable(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
-    FabricBlockLootTableProvider(output, registriesFuture) {
+class LootTable(output: FabricPackOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+    FabricBlockLootSubProvider(output, registriesFuture) {
 
     private fun oreLikeDrops(
         drop: Block,

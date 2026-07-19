@@ -1,10 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import groovy.json.JsonSlurper
+import java.util.zip.ZipFile
 
 plugins {
-    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version "${kotlin_version}"
-    id("io.github.p03w.machete") version "2.0.1"
 }
 
 version = project.mod_version
@@ -31,12 +32,11 @@ fabricApi {
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    implementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
 processResources {
@@ -49,23 +49,23 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = 25
 }
 
 kotlin {
+    jvmToolchain(25)
+
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_21
+        jvmTarget = JvmTarget.JVM_25
     }
 }
 
 java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
+    // Include source code alongside the unobfuscated distribution JAR.
     withSourcesJar()
 
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
@@ -73,6 +73,69 @@ jar {
     from("LICENSE") {
         rename { "${it}_${archiveBaseName}" }
     }
+}
+
+tasks.register("checkJar") {
+    group = "verification"
+    description = "Verifies metadata, Java bytecode, generated data, and bundled contents."
+    dependsOn tasks.jar
+    inputs.file(tasks.jar.archiveFile)
+
+    doLast {
+        def jarFile = tasks.jar.archiveFile.get().asFile
+        def requiredEntries = [
+            "assets/yjas/items/silver_ingot.json",
+            "assets/yjas/models/item/silver_ingot.json",
+            "data/c/tags/item/ingots/silver.json",
+            "data/yjas/loot_table/blocks/silver_ore.json",
+            "data/yjas/recipe/silver_ingot_from_smelting_silver_ore.json",
+            "data/yjas/worldgen/configured_feature/silver_ore.json",
+            "data/yjas/worldgen/placed_feature/silver_ore_placed.json"
+        ]
+
+        new ZipFile(jarFile).withCloseable { zip ->
+            def metadataEntry = zip.getEntry("fabric.mod.json")
+            def mainClassEntry = zip.getEntry("team/hpk/yjas/ModMain.class")
+            if (metadataEntry == null || mainClassEntry == null) {
+                throw new GradleException("JAR is missing fabric.mod.json or ModMain.class")
+            }
+
+            def metadata = zip.getInputStream(metadataEntry).withReader("UTF-8") {
+                new JsonSlurper().parse(it)
+            }
+            if (metadata.id != "yjas" || metadata.version.contains('\${version}')) {
+                throw new GradleException("JAR contains invalid or unexpanded Fabric metadata")
+            }
+            if (metadata.depends.minecraft != ["26.1", "26.1.1", "26.1.2"] || metadata.depends.java != ">=25") {
+                throw new GradleException("JAR does not target exactly Minecraft 26.1/26.1.1/26.1.2 on Java 25")
+            }
+
+            byte[] classHeader = zip.getInputStream(mainClassEntry).withCloseable { it.readNBytes(8) }
+            int majorVersion = ((classHeader[6] & 0xff) << 8) | (classHeader[7] & 0xff)
+            if (majorVersion != 69) {
+                throw new GradleException("Expected Java 25 class major version 69, got ${majorVersion}")
+            }
+
+            requiredEntries.each { entry ->
+                if (zip.getEntry(entry) == null) {
+                    throw new GradleException("Missing required JAR entry: ${entry}")
+                }
+            }
+
+            def bundledCreateJar = zip.entries().find { entry ->
+                entry.name ==~ /(?i)(^|\/)(create|flywheel)[^\/]*\.jar$/
+            }
+            if (bundledCreateJar != null) {
+                throw new GradleException("Create integration must not be bundled: ${bundledCreateJar.name}")
+            }
+        }
+
+        logger.lifecycle("Verified ${jarFile}")
+    }
+}
+
+tasks.check {
+    dependsOn tasks.named("checkJar")
 }
 
 // configure the maven publication
