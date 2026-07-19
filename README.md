@@ -10,7 +10,7 @@ Adds silver ore, deepslate silver ore, raw silver, silver ingots, silver nuggets
 
 ## Compatibility
 
-The Minecraft 26.1 artifact supports Fabric on exactly Minecraft 26.1, 26.1.1, and 26.1.2 and requires Java 25.
+The Minecraft 26.2 artifact supports Fabric on exactly Minecraft 26.2 and requires Java 25.
 
 ## Verification
 
@@ -23,4 +23,4 @@ Run data generation and the build as separate steps:
 
 `build` runs `checkJar`, which validates the expanded metadata, Java 25 bytecode, required generated resources, and the absence of bundled Create integration.
 
-Production server checks are available through `scripts/test-production-server.sh` and run for all three supported Minecraft versions in CI before artifacts are published.
+Production server checks are available through `scripts/test-production-server.sh` and run for Minecraft 26.2 in CI before artifacts are published.

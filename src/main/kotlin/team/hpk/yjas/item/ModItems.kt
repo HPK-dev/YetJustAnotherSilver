@@ -23,6 +23,7 @@ import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
+import net.minecraft.references.BlockItemId
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.CreativeModeTab
@@ -41,21 +42,27 @@ object ModItems {
         getIdentifier("item_group")
     )
 
-    val SILVER_INGOT = register("silver_ingot") { Item(it) }
-    val SILVER_NUGGET = register("silver_nugget") { Item(it) }
-    val RAW_SILVER = register("raw_silver") { Item(it) }
+    val SILVER_INGOT_KEY: ResourceKey<Item> = itemKey("silver_ingot")
+    val SILVER_NUGGET_KEY: ResourceKey<Item> = itemKey("silver_nugget")
+    val RAW_SILVER_KEY: ResourceKey<Item> = itemKey("raw_silver")
 
-    val SILVER_ORE = registerBlockItem("silver_ore", ModBlocks.SILVER_ORE)
-    val DEEPSLATE_SILVER_ORE = registerBlockItem("deepslate_silver_ore", ModBlocks.DEEPSLATE_SILVER_ORE)
-    val SILVER_BLOCK = registerBlockItem("silver_block", ModBlocks.SILVER_BLOCK)
+    val SILVER_INGOT = register(SILVER_INGOT_KEY) { Item(it) }
+    val SILVER_NUGGET = register(SILVER_NUGGET_KEY) { Item(it) }
+    val RAW_SILVER = register(RAW_SILVER_KEY) { Item(it) }
 
-    private fun <T : Item> register(name: String, factory: (Item.Properties) -> T): T {
-        val key = ResourceKey.create(Registries.ITEM, getIdentifier(name))
+    val SILVER_ORE = registerBlockItem(ModBlocks.SILVER_ORE_ID, ModBlocks.SILVER_ORE)
+    val DEEPSLATE_SILVER_ORE = registerBlockItem(ModBlocks.DEEPSLATE_SILVER_ORE_ID, ModBlocks.DEEPSLATE_SILVER_ORE)
+    val SILVER_BLOCK = registerBlockItem(ModBlocks.SILVER_BLOCK_ID, ModBlocks.SILVER_BLOCK)
+
+    private fun itemKey(name: String): ResourceKey<Item> =
+        ResourceKey.create(Registries.ITEM, getIdentifier(name))
+
+    private fun <T : Item> register(key: ResourceKey<Item>, factory: (Item.Properties) -> T): T {
         return Registry.register(BuiltInRegistries.ITEM, key, factory(Item.Properties().setId(key)))
     }
 
-    private fun registerBlockItem(name: String, block: Block): BlockItem =
-        register(name) { BlockItem(block, it.useBlockDescriptionPrefix()) }
+    private fun registerBlockItem(id: BlockItemId, block: Block): BlockItem =
+        register(id.item()) { BlockItem(block, it.useBlockDescriptionPrefix()) }
 
     fun initialize() {
         Registry.register(

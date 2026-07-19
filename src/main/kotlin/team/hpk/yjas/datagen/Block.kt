@@ -38,36 +38,35 @@ class Block(output: FabricPackOutput, completableFuture: CompletableFuture<Holde
     FabricTagsProvider.BlockTagsProvider(output, completableFuture) {
 
     override fun addTags(arg: HolderLookup.Provider) {
-        valueLookupBuilder(ORES)
+        builder(ORES)
             .addTag(SILVER_ORES)
 
-        valueLookupBuilder(SILVER_ORES)
-            .add(ModBlocks.DEEPSLATE_SILVER_ORE)
-            .add(ModBlocks.SILVER_ORE)
+        builder(SILVER_ORES)
+            .add(ModBlocks.DEEPSLATE_SILVER_ORE_ID, ModBlocks.SILVER_ORE_ID)
 
-        valueLookupBuilder(LEGACY_SILVER_ORES)
+        builder(LEGACY_SILVER_ORES)
             .addTag(SILVER_ORES)
 
-        valueLookupBuilder(STORAGE_BLOCKS)
+        builder(STORAGE_BLOCKS)
             .addTag(SILVER_STORAGE_BLOCKS)
 
-        valueLookupBuilder(SILVER_STORAGE_BLOCKS)
-            .add(ModBlocks.SILVER_BLOCK)
+        builder(SILVER_STORAGE_BLOCKS)
+            .add(ModBlocks.SILVER_BLOCK_ID)
 
-        valueLookupBuilder(LEGACY_SILVER_BLOCKS)
+        builder(LEGACY_SILVER_BLOCKS)
             .addTag(SILVER_STORAGE_BLOCKS)
 
-        valueLookupBuilder(ORES_IN_GROUND_DEEPSLATE)
-            .add(ModBlocks.DEEPSLATE_SILVER_ORE)
+        builder(ORES_IN_GROUND_DEEPSLATE)
+            .add(ModBlocks.DEEPSLATE_SILVER_ORE_ID)
 
-        valueLookupBuilder(ORES_IN_GROUND_STONE)
-            .add(ModBlocks.SILVER_ORE)
+        builder(ORES_IN_GROUND_STONE)
+            .add(ModBlocks.SILVER_ORE_ID)
 
-        valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
+        builder(BlockTags.MINEABLE_WITH_PICKAXE)
             .addTag(SILVER_ORES)
             .addTag(SILVER_STORAGE_BLOCKS)
 
-        valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
+        builder(BlockTags.NEEDS_IRON_TOOL)
             .addTag(SILVER_ORES)
             .addTag(SILVER_STORAGE_BLOCKS)
     }

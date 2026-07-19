@@ -86,7 +86,9 @@ tasks.register("checkJar") {
         def requiredEntries = [
             "assets/yjas/items/silver_ingot.json",
             "assets/yjas/models/item/silver_ingot.json",
+            "data/c/tags/block/ores/silver.json",
             "data/c/tags/item/ingots/silver.json",
+            "data/c/tags/item/ores/silver.json",
             "data/yjas/loot_table/blocks/silver_ore.json",
             "data/yjas/recipe/silver_ingot_from_smelting_silver_ore.json",
             "data/yjas/worldgen/configured_feature/silver_ore.json",
@@ -103,11 +105,11 @@ tasks.register("checkJar") {
             def metadata = zip.getInputStream(metadataEntry).withReader("UTF-8") {
                 new JsonSlurper().parse(it)
             }
-            if (metadata.id != "yjas" || metadata.version.contains('\${version}')) {
+            if (metadata.id != "yjas" || metadata.version != project.version.toString()) {
                 throw new GradleException("JAR contains invalid or unexpanded Fabric metadata")
             }
-            if (metadata.depends.minecraft != ["26.1", "26.1.1", "26.1.2"] || metadata.depends.java != ">=25") {
-                throw new GradleException("JAR does not target exactly Minecraft 26.1/26.1.1/26.1.2 on Java 25")
+            if (metadata.depends.minecraft != "26.2" || metadata.depends.java != ">=25") {
+                throw new GradleException("JAR does not target exactly Minecraft 26.2 on Java 25")
             }
 
             byte[] classHeader = zip.getInputStream(mainClassEntry).withCloseable { it.readNBytes(8) }
