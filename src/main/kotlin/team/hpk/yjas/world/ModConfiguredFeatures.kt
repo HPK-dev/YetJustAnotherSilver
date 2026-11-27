@@ -23,25 +23,25 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.BlockTags
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.BlockReplacement
 import net.minecraft.world.level.levelgen.feature.Feature
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
+import net.minecraft.world.level.levelgen.feature.OreFeature
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 import team.hpk.yjas.Utils.getIdentifier
 import team.hpk.yjas.block.ModBlocks
 
 
 object ModConfiguredFeatures {
-    val SILVER_ORE_KEY: ResourceKey<ConfiguredFeature<*, *>> =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, getIdentifier("silver_ore"))
+    val SILVER_ORE_KEY: ResourceKey<Feature> =
+        ResourceKey.create(Registries.FEATURE, getIdentifier("silver_ore"))
 
-    fun bootstrap(context: BootstrapContext<ConfiguredFeature<*, *>>) {
+    fun bootstrap(context: BootstrapContext<Feature>) {
         val silverOres = listOf(
-            OreConfiguration.target(
+            BlockReplacement.replace(
                 TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
                 ModBlocks.SILVER_ORE.defaultBlockState()
             ),
-            OreConfiguration.target(
+            BlockReplacement.replace(
                 TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
                 ModBlocks.DEEPSLATE_SILVER_ORE.defaultBlockState()
             )
@@ -49,7 +49,7 @@ object ModConfiguredFeatures {
 
         context.register(
             SILVER_ORE_KEY,
-            ConfiguredFeature(Feature.ORE, OreConfiguration(silverOres, 4))
+            OreFeature(silverOres, 4)
         )
     }
 }

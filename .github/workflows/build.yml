@@ -34,7 +34,7 @@ jobs:
             esac
           done
           test -n "${JAR:-}"
-          ./scripts/test-production-server.sh 26.2 0.155.2+26.2 "$JAR"
+          ./scripts/test-production-server.sh 26.3 0.167.0+26.3 "$JAR"
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:

@@ -33,7 +33,7 @@ class WorldGen(output: FabricPackOutput, registriesFuture: CompletableFuture<Hol
 
 
     override fun configure(registries: HolderLookup.Provider, entries: Entries) {
-        entries.addAll(registries.lookupOrThrow(Registries.CONFIGURED_FEATURE))
+        entries.addAll(registries.lookupOrThrow(Registries.FEATURE))
         entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE))
     }
 }

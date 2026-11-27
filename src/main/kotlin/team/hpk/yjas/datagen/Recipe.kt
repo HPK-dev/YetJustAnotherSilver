@@ -21,11 +21,13 @@ package team.hpk.yjas.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
+import net.minecraft.advancements.Advancement
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.recipes.RecipeCategory
-import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.data.recipes.RecipeProvider
+import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.world.item.crafting.CookingBookCategory
+import net.minecraft.world.item.crafting.Recipe
 import java.util.concurrent.CompletableFuture
 import team.hpk.yjas.item.ModItems
 
@@ -40,8 +42,12 @@ class Recipe(output: FabricPackOutput, registriesFuture: CompletableFuture<Holde
         )
     }
 
-    override fun createRecipeProvider(registryLookup: HolderLookup.Provider, exporter: RecipeOutput): RecipeProvider =
-        object : RecipeProvider(registryLookup, exporter) {
+    override fun createRecipeProvider(
+        registryLookup: HolderLookup.Provider,
+        recipes: BootstrapContext<Recipe<*>>,
+        advancements: BootstrapContext<Advancement>
+    ): RecipeProvider =
+        object : RecipeProvider(recipes, advancements) {
             override fun buildRecipes() {
                 oreSmelting(
                     SILVER_MELTABLE,

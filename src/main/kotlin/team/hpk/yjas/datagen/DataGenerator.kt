@@ -40,7 +40,7 @@ object DataGenerator : DataGeneratorEntrypoint {
     }
 
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
-        registryBuilder.add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
+        registryBuilder.add(Registries.FEATURE, ModConfiguredFeatures::bootstrap)
         registryBuilder.add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
     }
 }

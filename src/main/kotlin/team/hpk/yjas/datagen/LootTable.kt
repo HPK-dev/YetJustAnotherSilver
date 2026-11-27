@@ -22,7 +22,6 @@ package team.hpk.yjas.datagen
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider
 import net.minecraft.core.HolderLookup
-import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
@@ -31,7 +30,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders
 import java.util.concurrent.CompletableFuture
 import team.hpk.yjas.block.ModBlocks
 import team.hpk.yjas.item.ModItems
@@ -42,17 +41,16 @@ class LootTable(output: FabricPackOutput, registriesFuture: CompletableFuture<Ho
     private fun oreLikeDrops(
         drop: Block,
         item: ItemLike,
-        minDropCount: Float,
-        maxDropCount: Float
+        minDropCount: Int,
+        maxDropCount: Int
     ): LootTable.Builder {
-        val enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT)
         return createSilkTouchDispatchTable(
             drop,
             applyExplosionDecay(
                 drop,
                 LootItem.lootTableItem(item)
-                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(minDropCount, maxDropCount)))
-                    .apply(ApplyBonusCount.addOreBonusCount(enchantmentLookup.getOrThrow(Enchantments.FORTUNE)))
+                    .apply(SetItemCountFunction.setCount(ContextIntProviders.between(minDropCount, maxDropCount)))
+                    .apply(ApplyBonusCount.addOreBonusCount(enchantments.getOrThrow(Enchantments.FORTUNE)))
             ) as LootPoolEntryContainer.Builder<*>
         )
     }
@@ -61,11 +59,11 @@ class LootTable(output: FabricPackOutput, registriesFuture: CompletableFuture<Ho
         dropSelf(ModBlocks.SILVER_BLOCK)
         add(
             ModBlocks.SILVER_ORE,
-            oreLikeDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f)
+            oreLikeDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER, 2, 4)
         )
         add(
             ModBlocks.DEEPSLATE_SILVER_ORE,
-            oreLikeDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER, 2.0f, 4.0f)
+            oreLikeDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER, 2, 4)
         )
     }
 }

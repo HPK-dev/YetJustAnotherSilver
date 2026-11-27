@@ -48,12 +48,12 @@ curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-installer/1.1.1/fabri
 "$JAVA_HOME/bin/java" -jar "$installer_jar" server \
     -dir "$server_dir" \
     -mcversion "$minecraft_version" \
-    -loader 0.19.3 \
+    -loader 0.20.1 \
     -downloadMinecraft
 
 curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/${fabric_api_version}/fabric-api-${fabric_api_version}.jar" \
     -o "$server_dir/mods/fabric-api.jar"
-curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/1.13.13+kotlin.2.4.10/fabric-language-kotlin-1.13.13+kotlin.2.4.10.jar" \
+curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/1.14.2+kotlin.2.4.21/fabric-language-kotlin-1.14.2+kotlin.2.4.21.jar" \
     -o "$server_dir/mods/fabric-language-kotlin.jar"
 cp "$mod_jar" "$server_dir/mods/yjas.jar"
 
@@ -100,7 +100,7 @@ if [[ "$server_ready" != true || "$server_exit" -ne 0 ]]; then
 fi
 
 required_messages=(
-    "Loading Minecraft $minecraft_version with Fabric Loader 0.19.3"
+    "Loading Minecraft $minecraft_version with Fabric Loader 0.20.1"
     "- yjas "
     "We add silver to your game!"
     "Done ("

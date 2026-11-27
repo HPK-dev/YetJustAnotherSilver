@@ -52,7 +52,7 @@ jobs:
             esac
           done
           test -n "${JAR:-}"
-          ./scripts/test-production-server.sh 26.2 0.155.2+26.2 "$JAR"
+          ./scripts/test-production-server.sh 26.3 0.167.0+26.3 "$JAR"
 
       - name: release to Modrinth/Curseforge
         uses: Kira-NT/mc-publish@v3.3.1
@@ -69,7 +69,7 @@ jobs:
 
           loaders: fabric
           game-versions: |
-            26.2
+            26.3
           java: 25
 
           name: "${{ steps.read_property.outputs.archives_base_name }}+${{ steps.read_property.outputs.mod_version }}"

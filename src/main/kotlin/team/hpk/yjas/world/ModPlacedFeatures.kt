@@ -32,11 +32,11 @@ object ModPlacedFeatures {
         ResourceKey.create(Registries.PLACED_FEATURE, getIdentifier("silver_ore_placed"))
 
     fun bootstrap(context: BootstrapContext<PlacedFeature>) {
-        val configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE)
+        val features = context.lookup(Registries.FEATURE)
         context.register(
             SILVER_ORE_PLACED_KEY,
             PlacedFeature(
-                configuredFeatures.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                features.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
                 ModOrePlacements.modifiersWithCount(
                     8,
                     HeightRangePlacement.uniform(VerticalAnchor.absolute(-63), VerticalAnchor.absolute(40))
