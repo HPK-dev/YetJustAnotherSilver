@@ -2,28 +2,54 @@
 
 set -euo pipefail
 
-if [[ "$#" -ne 3 ]]; then
-    echo "Usage: $0 <minecraft-version> <fabric-api-version> <mod-jar>" >&2
+if [[ "$#" -lt 3 || "$#" -gt 6 ]]; then
+    echo "Usage: $0 <minecraft-version> <fabric-api-version> <mod-jar> [java-major] [loader-version] [fabric-language-kotlin-version]" >&2
     exit 2
 fi
 
 minecraft_version="$1"
 fabric_api_version="$2"
 mod_jar="$3"
+java_major="${4:-25}"
+loader_version="${5:-0.20.1}"
+fabric_kotlin_version="${6:-1.14.2+kotlin.2.4.21}"
 
-if [[ -z "${JAVA_HOME:-}" || ! -x "$JAVA_HOME/bin/java" ]]; then
-    echo "JAVA_HOME must point to JDK 25" >&2
+resolve_java_home() {
+    if [[ -n "${SERVER_JAVA_HOME:-}" && -x "${SERVER_JAVA_HOME}/bin/java" ]]; then
+        echo "${SERVER_JAVA_HOME}"
+        return
+    fi
+    local named="JAVA_HOME_${java_major}_X64"
+    if [[ -n "${!named:-}" && -x "${!named}/bin/java" ]]; then
+        echo "${!named}"
+        return
+    fi
+    local candidate
+    for candidate in \
+        "${HOME}/.jdks/jdk-${java_major}" \
+        "/usr/lib/jvm/java-${java_major}-openjdk-amd64" \
+        "/usr/lib/jvm/temurin-${java_major}-jdk-amd64"
+    do
+        if [[ -x "${candidate}/bin/java" ]]; then
+            echo "${candidate}"
+            return
+        fi
+    done
+    echo "No JDK ${java_major} found. Set SERVER_JAVA_HOME." >&2
     exit 2
-fi
+}
+
+JAVA_HOME="$(resolve_java_home)"
+export JAVA_HOME
 
 if [[ ! -f "$mod_jar" ]]; then
     echo "Mod JAR not found: $mod_jar" >&2
     exit 2
 fi
 
-java_version="$($JAVA_HOME/bin/java -version 2>&1 | sed -n '1s/.*version "\([0-9]*\).*/\1/p')"
-if [[ "$java_version" != "25" ]]; then
-    echo "Expected JDK 25, got $java_version" >&2
+java_version="$("$JAVA_HOME/bin/java" -version 2>&1 | sed -n '1s/.*version "\([0-9]*\).*/\1/p')"
+if [[ "$java_version" != "$java_major" ]]; then
+    echo "Expected JDK ${java_major}, got ${java_version}" >&2
     exit 2
 fi
 
@@ -48,12 +74,28 @@ curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-installer/1.1.1/fabri
 "$JAVA_HOME/bin/java" -jar "$installer_jar" server \
     -dir "$server_dir" \
     -mcversion "$minecraft_version" \
-    -loader 0.20.1 \
+    -loader "$loader_version" \
     -downloadMinecraft
 
 curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/${fabric_api_version}/fabric-api-${fabric_api_version}.jar" \
     -o "$server_dir/mods/fabric-api.jar"
-curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/1.14.2+kotlin.2.4.21/fabric-language-kotlin-1.14.2+kotlin.2.4.21.jar" \
+# Older Fabric API publications on Maven are the base module only. The bundled jar players install
+# is the Modrinth release with the same version number.
+if ! unzip -l "$server_dir/mods/fabric-api.jar" | grep -q 'META-INF/jars/'; then
+    bundle_url="$(curl -fsSL -G "https://api.modrinth.com/v2/project/P7dR8mSH/version" \
+        --data-urlencode "game_versions=[\"${minecraft_version}\"]" \
+        --data-urlencode 'loaders=["fabric"]' | python3 -c '
+import json, sys
+wanted = sys.argv[1]
+for item in json.load(sys.stdin):
+    if item.get("version_number") == wanted:
+        print(item["files"][0]["url"])
+        break
+' "$fabric_api_version")"
+    test -n "$bundle_url"
+    curl -fsSL "$bundle_url" -o "$server_dir/mods/fabric-api.jar"
+fi
+curl -fsSL "https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/${fabric_kotlin_version}/fabric-language-kotlin-${fabric_kotlin_version}.jar" \
     -o "$server_dir/mods/fabric-language-kotlin.jar"
 cp "$mod_jar" "$server_dir/mods/yjas.jar"
 
@@ -100,7 +142,7 @@ if [[ "$server_ready" != true || "$server_exit" -ne 0 ]]; then
 fi
 
 required_messages=(
-    "Loading Minecraft $minecraft_version with Fabric Loader 0.20.1"
+    "Loading Minecraft $minecraft_version with Fabric Loader $loader_version"
     "- yjas "
     "We add silver to your game!"
     "Done ("

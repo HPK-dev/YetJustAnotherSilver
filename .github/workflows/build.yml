@@ -1,44 +1,96 @@
-# Automatically build the project and run any configured tests for every push
-# and submitted pull request. This can help catch issues that only occur on
-# certain platforms or Java versions, and provides a first line of defence
-# against bad commits.
-
 name: build
+
 on: [pull_request, push]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - node: "1.19-1.19.1"
+            minecraft: "1.19"
+            java: "17"
+          - node: "1.19.2"
+            minecraft: "1.19.2"
+            java: "17"
+          - node: "1.19.3"
+            minecraft: "1.19.3"
+            java: "17"
+          - node: "1.19.4"
+            minecraft: "1.19.4"
+            java: "17"
+          - node: "1.20-1.20.1"
+            minecraft: "1.20.1"
+            java: "17"
+          - node: "1.20.2"
+            minecraft: "1.20.2"
+            java: "17"
+          - node: "1.20.3-1.20.4"
+            minecraft: "1.20.4"
+            java: "17"
+          - node: "1.20.5-1.20.6"
+            minecraft: "1.20.6"
+            java: "21"
+          - node: "1.21-1.21.1"
+            minecraft: "1.21.1"
+            java: "21"
+          - node: "1.21.2-1.21.3"
+            minecraft: "1.21.3"
+            java: "21"
+          - node: "1.21.4-1.21.5"
+            minecraft: "1.21.4"
+            java: "21"
+          - node: "1.21.6-1.21.8"
+            minecraft: "1.21.8"
+            java: "21"
+          - node: "1.21.9-1.21.10"
+            minecraft: "1.21.10"
+            java: "21"
+          - node: "1.21.11"
+            minecraft: "1.21.11"
+            java: "21"
+          - node: "26.1"
+            minecraft: "26.1.2"
+            java: "25"
+          - node: "26.2"
+            minecraft: "26.2"
+            java: "25"
+          - node: "26.3"
+            minecraft: "26.3"
+            java: "25"
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: validate gradle wrapper
         uses: gradle/actions/wrapper-validation@v4
-      - name: setup jdk 25
+      - name: setup jdk
         uses: actions/setup-java@v4
         with:
-          java-version: 25
-          distribution: 'temurin'
+          distribution: temurin
+          java-version: |
+            17
+            21
+            25
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: generate data
-        run: ./gradlew clean runDatagen
-      - name: build
-        run: ./gradlew build
-      - name: test production servers
+      - name: generate data and build
+        run: ./gradlew :${{ matrix.node }}:runDatagen :${{ matrix.node }}:build
+      - name: test production server
         run: |
-          for candidate in build/libs/*.jar; do
-            case "$candidate" in
-              *-sources.jar) ;;
-              *) JAR="$candidate" ;;
-            esac
-          done
-          test -n "${JAR:-}"
-          ./scripts/test-production-server.sh 26.3 0.167.0+26.3 "$JAR"
+          props=versions/${{ matrix.node }}/gradle.properties
+          fabric_api="$(sed -n 's/^fabric_api_version=//p' "$props")"
+          loader="$(sed -n 's/^loader_version=//p' "$props")"
+          flk="$(sed -n 's/^fabric_kotlin_version=//p' "$props")"
+          jar="$(find "versions/${{ matrix.node }}/build/libs" -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
+          test -n "$jar"
+          SERVER_JAVA_HOME="${JAVA_HOME_${{ matrix.java }}_X64}" \
+            ./scripts/test-production-server.sh \
+            "${{ matrix.minecraft }}" "$fabric_api" "$jar" "${{ matrix.java }}" "$loader" "$flk"
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Artifacts
-          path: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
+          name: ${{ matrix.node }}
+          path: versions/${{ matrix.node }}/build/libs/*.jar
+          if-no-files-found: error
