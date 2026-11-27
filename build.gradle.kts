@@ -99,12 +99,7 @@ tasks.named<ProcessResources>("processResources") {
     }
 }
 
-tasks.named("sourcesJar") {
-    dependsOn("runDatagen")
-}
-
 tasks.named<Jar>("jar") {
-    dependsOn("runDatagen")
     from(rootProject.file("LICENSE")) {
         rename { "${it}_${archiveBaseName.get()}" }
     }

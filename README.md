@@ -14,10 +14,11 @@ One source tree builds a Fabric jar for every supported range from Minecraft 1.1
 
 ## Verification
 
-Generate data and build every node:
+Generate data, then build every node as a separate Gradle run so the generated files are packaged:
 
 ```shell
-./gradlew runDatagen build
+./gradlew runDatagen
+./gradlew build
 ```
 
 `build` runs `checkJar` for each node. Production server checks use `scripts/test-production-server.sh` and run per node in CI before artifacts are published.

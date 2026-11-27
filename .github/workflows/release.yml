@@ -125,8 +125,10 @@ jobs:
       - name: make Gradle Wrapper executable
         run: chmod +x ./gradlew
 
-      - name: datagen and build
-        run: ./gradlew :${{ matrix.node }}:runDatagen :${{ matrix.node }}:build
+      - name: datagen
+        run: ./gradlew :${{ matrix.node }}:runDatagen
+      - name: build
+        run: ./gradlew :${{ matrix.node }}:build
 
       - name: production server compatibility
         run: |

@@ -75,8 +75,10 @@ jobs:
             25
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: generate data and build
-        run: ./gradlew :${{ matrix.node }}:runDatagen :${{ matrix.node }}:build
+      - name: generate data
+        run: ./gradlew :${{ matrix.node }}:runDatagen
+      - name: build
+        run: ./gradlew :${{ matrix.node }}:build
       - name: test production server
         run: |
           props=versions/${{ matrix.node }}/gradle.properties
