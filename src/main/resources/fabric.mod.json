@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "yjas",
-  "version": "${version}",
+  "version": "@VERSION@",
   "name": "Yet Just Another Silver",
   "description": "Just add silver to your game!",
   "authors": [
@@ -29,10 +29,10 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.20.1",
-    "minecraft": "26.3",
-    "java": ">=25",
-    "fabric-api": "*",
-    "fabric-language-kotlin": ">=1.14.2+kotlin.2.4.21"
+    "fabricloader": "@LOADER@",
+    "minecraft": "@MINECRAFT@",
+    "java": "@JAVA@",
+    "@FABRIC_ID@": "*",
+    "fabric-language-kotlin": "@KOTLIN@"
   }
 }

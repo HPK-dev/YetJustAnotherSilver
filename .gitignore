@@ -42,3 +42,9 @@ replay_*.log
 *.hprof
 *.jfr
 
+
+# stonecutter version builds
+versions/*/build/
+versions/*/.gradle/
+versions/*/src/main/generated/
+.gradle/
