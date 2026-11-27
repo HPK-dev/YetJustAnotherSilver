@@ -19,6 +19,7 @@
 
 package team.hpk.yjas.datagen
 
+//? if >=26.1 {
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.minecraft.client.data.models.BlockModelGenerators
@@ -29,18 +30,103 @@ import team.hpk.yjas.item.ModItems
 
 class Model(output: FabricPackOutput) : FabricModelProvider(output) {
     override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
-        blockStateModelGenerator.apply {
-            createTrivialCube(ModBlocks.SILVER_BLOCK)
-            createTrivialCube(ModBlocks.SILVER_ORE)
-            createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
-        }
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_BLOCK)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_ORE)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerators) {
-        itemModelGenerator.apply {
-            generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
-            generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
-            generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
-        }
+        itemModelGenerator.generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
     }
 }
+//?} else if >=1.21.11 {
+/*import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.minecraft.client.data.models.BlockModelGenerators
+import net.minecraft.client.data.models.ItemModelGenerators
+import net.minecraft.client.data.models.model.ModelTemplates
+import team.hpk.yjas.block.ModBlocks
+import team.hpk.yjas.item.ModItems
+
+class Model(output: FabricDataOutput) : FabricModelProvider(output) {
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_BLOCK)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_ORE)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
+    }
+
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerators) {
+        itemModelGenerator.generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
+    }
+}
+*///?} else if >=1.21.4 {
+/*import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.minecraft.client.data.models.BlockModelGenerators
+import net.minecraft.client.data.models.ItemModelGenerators
+import net.minecraft.client.data.models.model.ModelTemplates
+import team.hpk.yjas.block.ModBlocks
+import team.hpk.yjas.item.ModItems
+
+class Model(output: FabricDataOutput) : FabricModelProvider(output) {
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_BLOCK)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_ORE)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
+    }
+
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerators) {
+        itemModelGenerator.generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
+    }
+}
+*///?} else if >=1.19.3 {
+/*import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.ItemModelGenerators
+import net.minecraft.data.models.model.ModelTemplates
+import team.hpk.yjas.block.ModBlocks
+import team.hpk.yjas.item.ModItems
+
+class Model(output: FabricDataOutput) : FabricModelProvider(output) {
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_BLOCK)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_ORE)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
+    }
+
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerators) {
+        itemModelGenerator.generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
+    }
+}
+*///?} else {
+/*import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.ItemModelGenerators
+import net.minecraft.data.models.model.ModelTemplates
+import team.hpk.yjas.block.ModBlocks
+import team.hpk.yjas.item.ModItems
+
+class Model(output: FabricDataGenerator) : FabricModelProvider(output) {
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockModelGenerators) {
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_BLOCK)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.SILVER_ORE)
+        blockStateModelGenerator.createTrivialCube(ModBlocks.DEEPSLATE_SILVER_ORE)
+    }
+
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerators) {
+        itemModelGenerator.generateFlatItem(ModItems.RAW_SILVER, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM)
+        itemModelGenerator.generateFlatItem(ModItems.SILVER_NUGGET, ModelTemplates.FLAT_ITEM)
+    }
+}
+*///?}

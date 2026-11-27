@@ -19,8 +19,13 @@
 
 package team.hpk.yjas
 
+//? if >=1.21.11 {
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
+//?} else {
+/*import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+*///?}
 import team.hpk.yjas.ModMain.MOD_ID
 
 object Utils {
@@ -29,7 +34,17 @@ object Utils {
         return Component.translatable("$MOD_ID.$identifier")
     }
 
+    //? if >=1.21.11 {
     fun getIdentifier(identifier: String): Identifier {
         return Identifier.fromNamespaceAndPath(MOD_ID, identifier)
     }
+    //?} else if >=1.21 {
+    /*fun getIdentifier(identifier: String): ResourceLocation {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, identifier)
+    }
+    *///?} else {
+    /*fun getIdentifier(identifier: String): ResourceLocation {
+        return ResourceLocation(MOD_ID, identifier)
+    }
+    *///?}
 }
