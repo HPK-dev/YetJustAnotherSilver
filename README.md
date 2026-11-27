@@ -21,4 +21,4 @@ Generate data, then build every node as a separate Gradle run so the generated f
 ./gradlew build
 ```
 
-`build` runs `checkJar` for each node. Production server checks use `scripts/test-production-server.sh` and run per node in CI before artifacts are published.
+`build` runs `checkJar` for each node. CI runs `scripts/test-production-server.sh` for every Minecraft version that node's jar declares.

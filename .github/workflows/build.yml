@@ -9,10 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - node: "1.19-1.19.1"
-            minecraft: "1.19"
-            java: "17"
-          - node: "1.19.2"
+          - node: "1.19-1.19.2"
             minecraft: "1.19.2"
             java: "17"
           - node: "1.19.3"
@@ -21,13 +18,7 @@ jobs:
           - node: "1.19.4"
             minecraft: "1.19.4"
             java: "17"
-          - node: "1.20-1.20.1"
-            minecraft: "1.20.1"
-            java: "17"
-          - node: "1.20.2"
-            minecraft: "1.20.2"
-            java: "17"
-          - node: "1.20.3-1.20.4"
+          - node: "1.20-1.20.4"
             minecraft: "1.20.4"
             java: "17"
           - node: "1.20.5-1.20.6"
@@ -42,11 +33,8 @@ jobs:
           - node: "1.21.4-1.21.5"
             minecraft: "1.21.4"
             java: "21"
-          - node: "1.21.6-1.21.8"
+          - node: "1.21.6-1.21.10"
             minecraft: "1.21.8"
-            java: "21"
-          - node: "1.21.9-1.21.10"
-            minecraft: "1.21.10"
             java: "21"
           - node: "1.21.11"
             minecraft: "1.21.11"
@@ -82,14 +70,17 @@ jobs:
       - name: test production server
         run: |
           props=versions/${{ matrix.node }}/gradle.properties
-          fabric_api="$(sed -n 's/^fabric_api_version=//p' "$props")"
-          loader="$(sed -n 's/^loader_version=//p' "$props")"
-          flk="$(sed -n 's/^fabric_kotlin_version=//p' "$props")"
           jar="$(find "versions/${{ matrix.node }}/build/libs" -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
           test -n "$jar"
-          SERVER_JAVA_HOME="${JAVA_HOME_${{ matrix.java }}_X64}" \
-            ./scripts/test-production-server.sh \
-            "${{ matrix.minecraft }}" "$fabric_api" "$jar" "${{ matrix.java }}" "$loader" "$flk"
+          tests="$(sed -n 's/^server_tests=//p' "$props")"
+          test -n "$tests"
+          for spec in $tests; do
+            IFS='|' read -r mc fabric_api loader flk <<< "$spec"
+            echo "Testing Minecraft $mc"
+            SERVER_JAVA_HOME="${JAVA_HOME_${{ matrix.java }}_X64}" \
+              ./scripts/test-production-server.sh \
+              "$mc" "$fabric_api" "$jar" "${{ matrix.java }}" "$loader" "$flk"
+          done
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:

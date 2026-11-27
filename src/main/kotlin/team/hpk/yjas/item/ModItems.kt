@@ -219,7 +219,7 @@ object ModItems {
         var properties = Item.Properties()
         //? if >=1.21.2
         /*properties = properties.setId(key)*/
-        //? if >=1.21.2 && (>=1.21.2 <1.21.6 || >=1.21.9)
+        //? if >=1.21.2
         /*if (blockItem) properties = properties.useBlockDescriptionPrefix()*/
         val created = if (blockItem) BlockItem(block!!, properties) else Item(properties)
         //? if >=1.21.4 <1.21.6
@@ -337,7 +337,7 @@ object ModItems {
         Registry.register(BuiltInRegistries.ITEM, getIdentifier("deepslate_silver_ore"), DEEPSLATE_SILVER_ORE)
     }
 }
-*///?} else if 1.19.2 {
+*///?} else {
 /*import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.core.Registry
@@ -366,32 +366,6 @@ object ModItems {
     val SILVER_ORE: Item = BlockItem(ModBlocks.SILVER_ORE, FabricItemSettings().group(ITEM_GROUP))
     val DEEPSLATE_SILVER_ORE: Item = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, FabricItemSettings().group(ITEM_GROUP))
     val SILVER_BLOCK: Item = BlockItem(ModBlocks.SILVER_BLOCK, FabricItemSettings().group(ITEM_GROUP))
-
-    fun register() {
-        Registry.register(Registry.ITEM, getIdentifier("silver_ingot"), SILVER_INGOT)
-        Registry.register(Registry.ITEM, getIdentifier("silver_nugget"), SILVER_NUGGET)
-        Registry.register(Registry.ITEM, getIdentifier("raw_silver"), RAW_SILVER)
-        Registry.register(Registry.ITEM, getIdentifier("silver_block"), SILVER_BLOCK)
-        Registry.register(Registry.ITEM, getIdentifier("silver_ore"), SILVER_ORE)
-        Registry.register(Registry.ITEM, getIdentifier("deepslate_silver_ore"), DEEPSLATE_SILVER_ORE)
-    }
-}
-*///?} else {
-/*import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.minecraft.core.Registry
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.CreativeModeTab
-import net.minecraft.world.item.Item
-import team.hpk.yjas.Utils.getIdentifier
-import team.hpk.yjas.block.ModBlocks
-
-object ModItems {
-    val SILVER_INGOT = Item(FabricItemSettings().tab(CreativeModeTab.TAB_MISC))
-    val SILVER_NUGGET = Item(FabricItemSettings().tab(CreativeModeTab.TAB_MISC))
-    val RAW_SILVER = Item(FabricItemSettings().tab(CreativeModeTab.TAB_MISC))
-    val SILVER_ORE = BlockItem(ModBlocks.SILVER_ORE, FabricItemSettings().tab(CreativeModeTab.TAB_MISC))
-    val DEEPSLATE_SILVER_ORE = BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, FabricItemSettings().tab(CreativeModeTab.TAB_MISC))
-    val SILVER_BLOCK = BlockItem(ModBlocks.SILVER_BLOCK, FabricItemSettings().tab(CreativeModeTab.TAB_MISC))
 
     fun register() {
         Registry.register(Registry.ITEM, getIdentifier("silver_ingot"), SILVER_INGOT)
