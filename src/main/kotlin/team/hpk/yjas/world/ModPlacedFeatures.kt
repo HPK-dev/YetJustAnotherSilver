@@ -19,37 +19,114 @@
 
 package team.hpk.yjas.world
 
-import net.minecraft.registry.Registerable
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.world.gen.YOffset
-import net.minecraft.world.gen.feature.PlacedFeature
-import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier
+//? if >=26.3 {
+import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstrapContext
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.levelgen.VerticalAnchor
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import team.hpk.yjas.Utils.getIdentifier
 
-private const val MIN_Y = -63
-private const val MAX_Y = 40
-private const val VEINS_PER_CHUNK = 8
+object ModPlacedFeatures {
+    val SILVER_ORE_PLACED_KEY: ResourceKey<PlacedFeature> =
+        ResourceKey.create(Registries.PLACED_FEATURE, getIdentifier("silver_ore_placed"))
 
-class ModPlacedFeatures {
-
-    companion object {
-        val SILVER_ORE_PLACED_KEY: RegistryKey<PlacedFeature> =
-            RegistryKey.of(RegistryKeys.PLACED_FEATURE, getIdentifier("silver_ore_placed"))
-
-
-        fun boostrap(context: Registerable<PlacedFeature>) {
-            val configuredFeature = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE)
-            context.register(
-                SILVER_ORE_PLACED_KEY,
-                PlacedFeature(
-                    configuredFeature.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
-                    ModOrePlacements.modifiersWithCount(
-                        VEINS_PER_CHUNK,
-                        HeightRangePlacementModifier.uniform(YOffset.fixed(MIN_Y), YOffset.fixed(MAX_Y))
-                    )
+    fun bootstrap(context: BootstrapContext<PlacedFeature>) {
+        val features = context.lookup(Registries.FEATURE)
+        context.register(
+            SILVER_ORE_PLACED_KEY,
+            PlacedFeature(
+                features.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                ModOrePlacements.modifiersWithCount(
+                    8,
+                    HeightRangePlacement.uniform(VerticalAnchor.absolute(-63), VerticalAnchor.absolute(40))
                 )
             )
-        }
+        )
     }
 }
+//?} else if >=1.20.5 {
+/*import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstrapContext
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.levelgen.VerticalAnchor
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import team.hpk.yjas.Utils.getIdentifier
+
+object ModPlacedFeatures {
+    val SILVER_ORE_PLACED_KEY: ResourceKey<PlacedFeature> =
+        ResourceKey.create(Registries.PLACED_FEATURE, getIdentifier("silver_ore_placed"))
+
+    fun bootstrap(context: BootstrapContext<PlacedFeature>) {
+        val features = context.lookup(Registries.CONFIGURED_FEATURE)
+        context.register(
+            SILVER_ORE_PLACED_KEY,
+            PlacedFeature(
+                features.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                ModOrePlacements.modifiersWithCount(
+                    8,
+                    HeightRangePlacement.uniform(VerticalAnchor.absolute(-63), VerticalAnchor.absolute(40))
+                )
+            )
+        )
+    }
+}
+*///?} else if >=1.19.3 {
+/*import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstapContext
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.levelgen.VerticalAnchor
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import team.hpk.yjas.Utils.getIdentifier
+
+object ModPlacedFeatures {
+    val SILVER_ORE_PLACED_KEY: ResourceKey<PlacedFeature> =
+        ResourceKey.create(Registries.PLACED_FEATURE, getIdentifier("silver_ore_placed"))
+
+    fun bootstrap(context: BootstapContext<PlacedFeature>) {
+        val features = context.lookup(Registries.CONFIGURED_FEATURE)
+        context.register(
+            SILVER_ORE_PLACED_KEY,
+            PlacedFeature(
+                features.getOrThrow(ModConfiguredFeatures.SILVER_ORE_KEY),
+                ModOrePlacements.modifiersWithCount(
+                    8,
+                    HeightRangePlacement.uniform(VerticalAnchor.absolute(-63), VerticalAnchor.absolute(40))
+                )
+            )
+        )
+    }
+}
+*///?} else {
+/*import net.minecraft.core.Registry
+import net.minecraft.data.BuiltinRegistries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.levelgen.VerticalAnchor
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import team.hpk.yjas.Utils.getIdentifier
+
+object ModPlacedFeatures {
+    val SILVER_ORE_PLACED_KEY: ResourceKey<PlacedFeature> = ResourceKey.create(
+        Registry.PLACED_FEATURE_REGISTRY,
+        getIdentifier("silver_ore_placed")
+    )
+
+    init {
+        BuiltinRegistries.register(
+            BuiltinRegistries.PLACED_FEATURE,
+            SILVER_ORE_PLACED_KEY,
+            PlacedFeature(
+                ModConfiguredFeatures.SILVER_ORE,
+                ModOrePlacements.modifiersWithCount(
+                    8,
+                    HeightRangePlacement.uniform(VerticalAnchor.absolute(-63), VerticalAnchor.absolute(40))
+                )
+            )
+        )
+    }
+}
+*///?}

@@ -1,37 +1,89 @@
-# Automatically build the project and run any configured tests for every push
-# and submitted pull request. This can help catch issues that only occur on
-# certain platforms or Java versions, and provides a first line of defence
-# against bad commits.
-
 name: build
+
 on: [pull_request, push]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        # Use these Java versions
-        java: [
-          21,    # Current Java LTS
-        ]
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - node: "1.19-1.19.2"
+            minecraft: "1.19.2"
+            java: "17"
+          - node: "1.19.3"
+            minecraft: "1.19.3"
+            java: "17"
+          - node: "1.19.4"
+            minecraft: "1.19.4"
+            java: "17"
+          - node: "1.20-1.20.4"
+            minecraft: "1.20.4"
+            java: "17"
+          - node: "1.20.5-1.20.6"
+            minecraft: "1.20.6"
+            java: "21"
+          - node: "1.21-1.21.1"
+            minecraft: "1.21.1"
+            java: "21"
+          - node: "1.21.2-1.21.3"
+            minecraft: "1.21.3"
+            java: "21"
+          - node: "1.21.4-1.21.5"
+            minecraft: "1.21.4"
+            java: "21"
+          - node: "1.21.6-1.21.10"
+            minecraft: "1.21.8"
+            java: "21"
+          - node: "1.21.11"
+            minecraft: "1.21.11"
+            java: "21"
+          - node: "26.1"
+            minecraft: "26.1.2"
+            java: "25"
+          - node: "26.2"
+            minecraft: "26.2"
+            java: "25"
+          - node: "26.3"
+            minecraft: "26.3"
+            java: "25"
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v2
-      - name: setup jdk ${{ matrix.java }}
+        uses: gradle/actions/wrapper-validation@v4
+      - name: setup jdk
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
-          distribution: 'microsoft'
+          distribution: temurin
+          java-version: |
+            17
+            21
+            25
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: generate data
+        run: ./gradlew :${{ matrix.node }}:runDatagen
       - name: build
-        run: ./gradlew build
+        run: ./gradlew :${{ matrix.node }}:build
+      - name: test production server
+        run: |
+          props=versions/${{ matrix.node }}/gradle.properties
+          jar="$(find "versions/${{ matrix.node }}/build/libs" -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
+          test -n "$jar"
+          tests="$(sed -n 's/^server_tests=//p' "$props")"
+          test -n "$tests"
+          for spec in $tests; do
+            IFS='|' read -r mc fabric_api loader flk <<< "$spec"
+            echo "Testing Minecraft $mc"
+            SERVER_JAVA_HOME="${JAVA_HOME_${{ matrix.java }}_X64}" \
+              ./scripts/test-production-server.sh \
+              "$mc" "$fabric_api" "$jar" "${{ matrix.java }}" "$loader" "$flk"
+          done
       - name: capture build artifacts
-        if: ${{ matrix.java == '21' }} # Only upload artifacts built from latest java
         uses: actions/upload-artifact@v4
         with:
-          name: Artifacts
-          path: build/libs/
+          name: ${{ matrix.node }}
+          path: versions/${{ matrix.node }}/build/libs/*.jar
+          if-no-files-found: error

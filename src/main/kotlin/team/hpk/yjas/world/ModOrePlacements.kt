@@ -19,31 +19,22 @@
 
 package team.hpk.yjas.world
 
-import net.minecraft.world.gen.placementmodifier.*
+import net.minecraft.world.level.levelgen.placement.BiomeFilter
+import net.minecraft.world.level.levelgen.placement.CountPlacement
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement
+import net.minecraft.world.level.levelgen.placement.PlacementModifier
+import net.minecraft.world.level.levelgen.placement.RarityFilter
 
-class ModOrePlacements {
-    companion object {
+object ModOrePlacements {
+    private fun modifiers(
+        countModifier: PlacementModifier,
+        heightModifier: PlacementModifier
+    ): List<PlacementModifier> =
+        listOf(countModifier, InSquarePlacement.spread(), heightModifier, BiomeFilter.biome())
 
-         private fun modifiers(
-            countModifier: PlacementModifier,
-            heightModifier: PlacementModifier
-        ): List<PlacementModifier> =
-            listOf(
-                countModifier,
-                SquarePlacementModifier.of(),
-                heightModifier,
-                BiomePlacementModifier.of()
-            )
+    fun modifiersWithCount(count: Int, heightModifier: PlacementModifier): List<PlacementModifier> =
+        modifiers(CountPlacement.of(count), heightModifier)
 
-
-         fun modifiersWithCount(count: Int, heightModifier: PlacementModifier): List<PlacementModifier> =
-            modifiers(CountPlacementModifier.of(count), heightModifier)
-
-
-         fun modifiersWithRarity(chance: Int, heightModifier: PlacementModifier): List<PlacementModifier> =
-            modifiers(RarityFilterPlacementModifier.of(chance), heightModifier)
-    }
-
-
-
+    fun modifiersWithRarity(chance: Int, heightModifier: PlacementModifier): List<PlacementModifier> =
+        modifiers(RarityFilter.onAverageOnceEvery(chance), heightModifier)
 }

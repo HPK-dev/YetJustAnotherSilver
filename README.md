@@ -2,26 +2,23 @@
 
 ## Motivation
 
-Our server recently started a new modded survival game based on [Create].  
-We also installed [Create Craft & Addition].  
-However, we encountered an issue: "Why can't I craft Electrum?"  
-After checking the recipe JSON file, we discovered it requires an item `c:silver_ingot`.  
-Upon further investigation, we found that many tech mods don't support `Fabric 1.20.1` yet,  
-so we decided to create a new mod that adds just silver.
-
-
+Many modded recipes use the conventional `c` silver tags, but a lightweight source of silver is not always available. This mod adds silver without requiring a larger content or technology mod.
 
 ## Features
 
-Add (deepslate) silver ore, raw silver ,silver ingot, silver nugget and block of silver.
+Adds silver ore, deepslate silver ore, raw silver, silver ingots, silver nuggets, and blocks of silver.
 
-## Acknowledgement
+## Compatibility
 
-- [Create]:
-  Ores worldgen, recipes
-- [Fabric Modding Tutorial](https://www.youtube.com/list=PLKGarocXCE1EO43Dlf5JGh7Yk-kRAXUEJ):
-  Very impressive works, help us a lot.
+One source tree builds a Fabric jar for every supported range from Minecraft 1.19 through 26.3. Each `versions/<node>` directory selects the Minecraft, Java, and loader versions for that jar. Version `1.0.6+mc26.3` requires Java 25. Ranges on Java 21 and Java 17 are separate jars because the bytecode level and data pack layout differ.
 
-[Create]:https://github.com/Fabricators-of-Create/Create/tree/mc1.20.1/fabric/dev
+## Verification
 
-[Create Craft & Addition]:https://github.com/mrh0/createaddition/tree/fabric-1.20.1
+Generate data, then build every node as a separate Gradle run so the generated files are packaged:
+
+```shell
+./gradlew runDatagen
+./gradlew build
+```
+
+`build` runs `checkJar` for each node. CI runs `scripts/test-production-server.sh` for every Minecraft version that node's jar declares.

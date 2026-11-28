@@ -6,59 +6,144 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - node: "1.19-1.19.2"
+            minecraft: "1.19.2"
+            java: "17"
+            game_versions: |
+              1.19
+              1.19.1
+              1.19.2
+          - node: "1.19.3"
+            minecraft: "1.19.3"
+            java: "17"
+            game_versions: |
+              1.19.3
+          - node: "1.19.4"
+            minecraft: "1.19.4"
+            java: "17"
+            game_versions: |
+              1.19.4
+          - node: "1.20-1.20.4"
+            minecraft: "1.20.4"
+            java: "17"
+            game_versions: |
+              1.20
+              1.20.1
+              1.20.2
+              1.20.3
+              1.20.4
+          - node: "1.20.5-1.20.6"
+            minecraft: "1.20.6"
+            java: "21"
+            game_versions: |
+              1.20.5
+              1.20.6
+          - node: "1.21-1.21.1"
+            minecraft: "1.21.1"
+            java: "21"
+            game_versions: |
+              1.21
+              1.21.1
+          - node: "1.21.2-1.21.3"
+            minecraft: "1.21.3"
+            java: "21"
+            game_versions: |
+              1.21.2
+              1.21.3
+          - node: "1.21.4-1.21.5"
+            minecraft: "1.21.4"
+            java: "21"
+            game_versions: |
+              1.21.4
+              1.21.5
+          - node: "1.21.6-1.21.10"
+            minecraft: "1.21.8"
+            java: "21"
+            game_versions: |
+              1.21.6
+              1.21.7
+              1.21.8
+              1.21.9
+              1.21.10
+          - node: "1.21.11"
+            minecraft: "1.21.11"
+            java: "21"
+            game_versions: |
+              1.21.11
+          - node: "26.1"
+            minecraft: "26.1.2"
+            java: "25"
+            game_versions: |
+              26.1
+              26.1.1
+              26.1.2
+          - node: "26.2"
+            minecraft: "26.2"
+            java: "25"
+            game_versions: |
+              26.2
+          - node: "26.3"
+            minecraft: "26.3"
+            java: "25"
+            game_versions: |
+              26.3
     steps:
-
       - name: checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-
-
-      - name: Get Property
-
-        uses:  christian-draeger/read-properties@1.1.1
-        id: read_property
-        with:
-          path: './gradle.properties'
-          properties: 'mod_version archives_base_name'
-
-      - name: check env
-        run: env
+        uses: actions/checkout@v4
 
       - name: setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: 17
+          distribution: temurin
+          java-version: |
+            17
+            21
+            25
 
       - name: make Gradle Wrapper executable
-        if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
 
-      - name: clean
-        run: ./gradlew clean
-
       - name: datagen
-        run: ./gradlew runDatagen
-
+        run: ./gradlew :${{ matrix.node }}:runDatagen
       - name: build
-        run: ./gradlew build
+        run: ./gradlew :${{ matrix.node }}:build
+
+      - name: production server compatibility
+        run: |
+          props=versions/${{ matrix.node }}/gradle.properties
+          jar="$(find "versions/${{ matrix.node }}/build/libs" -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
+          test -n "$jar"
+          tests="$(sed -n 's/^server_tests=//p' "$props")"
+          test -n "$tests"
+          for spec in $tests; do
+            IFS='|' read -r mc fabric_api loader flk <<< "$spec"
+            echo "Testing Minecraft $mc"
+            SERVER_JAVA_HOME="${JAVA_HOME_${{ matrix.java }}_X64}" \
+              ./scripts/test-production-server.sh \
+              "$mc" "$fabric_api" "$jar" "${{ matrix.java }}" "$loader" "$flk"
+          done
 
       - name: release to Modrinth/Curseforge
-        uses: Kir-Antipov/mc-publish@v3.3
+        uses: Kira-NT/mc-publish@v3.3.1
         with:
           curseforge-id: 1072043
-          curseforge-token: "${{secrets.PUBLISH_CURSEFORGE_TOKEN}}"
+          curseforge-token: "${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}"
 
           modrinth-id: dsEsgw8u
           modrinth-token: "${{ secrets.PUBLISH_MODRINTH_TOKEN }}"
 
-          version-type: release
+          version-type: beta
           changelog-file: CHANGELOG.md
+          files: versions/${{ matrix.node }}/build/libs/!(*-sources).jar
 
           loaders: fabric
-          java: 17
+          game-versions: ${{ matrix.game_versions }}
+          java: ${{ matrix.java }}
 
-          name: "${{ steps.read_property.outputs.archives_base_name }}+${{ steps.read_property.outputs.mod_version }}"
+          name: YetJustAnotherSilver ${{ matrix.node }}

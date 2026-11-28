@@ -19,43 +19,154 @@
 
 package team.hpk.yjas.world
 
-import net.minecraft.registry.Registerable
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.structure.rule.TagMatchRuleTest
-import net.minecraft.world.gen.feature.ConfiguredFeature
-import net.minecraft.world.gen.feature.Feature
-import net.minecraft.world.gen.feature.OreFeatureConfig
+//? if >=26.3 {
+import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstrapContext
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.BlockTags
+import net.minecraft.world.level.levelgen.feature.BlockReplacement
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.OreFeature
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 import team.hpk.yjas.Utils.getIdentifier
 import team.hpk.yjas.block.ModBlocks
 
+object ModConfiguredFeatures {
+    val SILVER_ORE_KEY: ResourceKey<Feature> =
+        ResourceKey.create(Registries.FEATURE, getIdentifier("silver_ore"))
 
-class ModConfiguredFeatures {
-    companion object {
-
-        val SILVER_ORE_KEY: RegistryKey<ConfiguredFeature<*, *>> =
-            RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, getIdentifier("silver_ore"))
-
-        fun boostrap(context: Registerable<ConfiguredFeature<*, *>>) {
-            val stoneReplaceables = TagMatchRuleTest(BlockTags.STONE_ORE_REPLACEABLES)
-            val deepslateReplaceables = TagMatchRuleTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES)
-
-            val silverOres = listOf(
-                OreFeatureConfig.createTarget(stoneReplaceables, ModBlocks.SILVER_ORE.defaultState),
-                OreFeatureConfig.createTarget(deepslateReplaceables, ModBlocks.DEEPSLATE_SILVER_ORE.defaultState)
+    fun bootstrap(context: BootstrapContext<Feature>) {
+        context.register(
+            SILVER_ORE_KEY,
+            OreFeature(
+                listOf(
+                    BlockReplacement.replace(
+                        TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
+                        ModBlocks.SILVER_ORE.defaultBlockState()
+                    ),
+                    BlockReplacement.replace(
+                        TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
+                        ModBlocks.DEEPSLATE_SILVER_ORE.defaultBlockState()
+                    )
+                ),
+                4
             )
-
-
-            context.register(
-                SILVER_ORE_KEY,
-                ConfiguredFeature(Feature.ORE, OreFeatureConfig(silverOres, 4))
-            )
-
-        }
+        )
     }
-
-
-
-
 }
+//?} else if >=1.20.5 {
+/*import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstrapContext
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.BlockTags
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
+import team.hpk.yjas.Utils.getIdentifier
+import team.hpk.yjas.block.ModBlocks
+
+object ModConfiguredFeatures {
+    val SILVER_ORE_KEY: ResourceKey<ConfiguredFeature<*, *>> =
+        ResourceKey.create(Registries.CONFIGURED_FEATURE, getIdentifier("silver_ore"))
+
+    fun bootstrap(context: BootstrapContext<ConfiguredFeature<*, *>>) {
+        context.register(
+            SILVER_ORE_KEY,
+            ConfiguredFeature(
+                Feature.ORE,
+                OreConfiguration(
+                    listOf(
+                        OreConfiguration.target(
+                            TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
+                            ModBlocks.SILVER_ORE.defaultBlockState()
+                        ),
+                        OreConfiguration.target(
+                            TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
+                            ModBlocks.DEEPSLATE_SILVER_ORE.defaultBlockState()
+                        )
+                    ),
+                    4
+                )
+            )
+        )
+    }
+}
+*///?} else if >=1.19.3 {
+/*import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstapContext
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.BlockTags
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
+import team.hpk.yjas.Utils.getIdentifier
+import team.hpk.yjas.block.ModBlocks
+
+object ModConfiguredFeatures {
+    val SILVER_ORE_KEY: ResourceKey<ConfiguredFeature<*, *>> =
+        ResourceKey.create(Registries.CONFIGURED_FEATURE, getIdentifier("silver_ore"))
+
+    fun bootstrap(context: BootstapContext<ConfiguredFeature<*, *>>) {
+        context.register(
+            SILVER_ORE_KEY,
+            ConfiguredFeature(
+                Feature.ORE,
+                OreConfiguration(
+                    listOf(
+                        OreConfiguration.target(
+                            TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
+                            ModBlocks.SILVER_ORE.defaultBlockState()
+                        ),
+                        OreConfiguration.target(
+                            TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
+                            ModBlocks.DEEPSLATE_SILVER_ORE.defaultBlockState()
+                        )
+                    ),
+                    4
+                )
+            )
+        )
+    }
+}
+*///?} else {
+/*import net.minecraft.core.Registry
+import net.minecraft.data.BuiltinRegistries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.BlockTags
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
+import team.hpk.yjas.Utils.getIdentifier
+import team.hpk.yjas.block.ModBlocks
+
+object ModConfiguredFeatures {
+    val SILVER_ORE_KEY: ResourceKey<ConfiguredFeature<*, *>> = ResourceKey.create(
+        Registry.CONFIGURED_FEATURE_REGISTRY,
+        getIdentifier("silver_ore")
+    )
+
+    val SILVER_ORE = BuiltinRegistries.register(
+        BuiltinRegistries.CONFIGURED_FEATURE,
+        SILVER_ORE_KEY,
+        ConfiguredFeature(
+            Feature.ORE,
+            OreConfiguration(
+                listOf(
+                    OreConfiguration.target(
+                        TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
+                        ModBlocks.SILVER_ORE.defaultBlockState()
+                    ),
+                    OreConfiguration.target(
+                        TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
+                        ModBlocks.DEEPSLATE_SILVER_ORE.defaultBlockState()
+                    )
+                ),
+                4
+            )
+        )
+    )
+}
+*///?}

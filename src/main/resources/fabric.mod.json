@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "yjas",
-  "version": "${version}",
+  "version": "@VERSION@",
   "name": "Yet Just Another Silver",
   "description": "Just add silver to your game!",
   "authors": [
@@ -11,7 +11,7 @@
   "contact": {
     "sources": "https://github.com/HPK-dev/YetJustAnotherSilver/"
   },
-  "license": "AGPL-3.0",
+  "license": "AGPL-3.0-or-later",
   "icon": "assets/yjas/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -29,10 +29,10 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.15.11",
-    "minecraft": ">=1.20 <1.20.2",
-    "java": ">=17",
-    "fabric-api": "*",
-    "fabric-language-kotlin": "*"
+    "fabricloader": "@LOADER@",
+    "minecraft": "@MINECRAFT@",
+    "java": "@JAVA@",
+    "@FABRIC_ID@": "*",
+    "fabric-language-kotlin": "@KOTLIN@"
   }
 }
